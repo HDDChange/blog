@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <!-- Safari Webpage Icon    by-BY -->
-    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="http://localhost:4000/2018/12/24/Java-%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0Java8/">
@@ -154,13 +154,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-cook.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post_bg_java8.png" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-cook.jpg')
+        background-image: url('/img/post_bg_java8.png')
     }
 
     
@@ -199,7 +199,277 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				
+				<h1 id="前言">前言</h1>
+<p>2014年，甲骨文公司发布了<code class="highlighter-rouge">Java8</code>正式版。而我正式接触java8的语法还是在18年的6月份，入职HT开始。到现在我也差不多使用了java8将近6个月的时间，应该还算使用熟练，再次记录一下自己的使用心得。</p>
+
+<h1 id="java8的新特性">Java8的新特性</h1>
+
+<ul>
+  <li><strong>Lambda表达式</strong></li>
+  <li><strong>Stream API</strong></li>
+  <li><strong>新的时间日期API</strong></li>
+</ul>
+
+<h3 id="lambda表达式">Lambda表达式</h3>
+<p>Lambda其实本质上而言只是一种<strong><code class="highlighter-rouge">语法糖</code></strong>,最后由编译器推断并帮你转换包装为常规的代码,使用Lambda，你可以写更少的代码实现功能。
+过于复杂的Lambda代码，虽然简洁，但是难懂、且调试火葬场，所以本人不建议写过于复杂Lambda的代码。</p>
+
+<h4 id="lambda表达式的语法">Lambda表达式的语法</h4>
+
+<p><strong>(参数列表) -&gt; { Lambda表达式主体;}</strong></p>
+
+<p>当Lambda表达式主体只有间断一句时，我们可以省略调<code class="highlighter-rouge">{}</code></p>
+
+<p>当参数列表中只有一个时，<code class="highlighter-rouge">()</code>可以省略，<code class="highlighter-rouge">类型声明</code>也可以省略</p>
+
+<p><strong>访问控制：</strong>在方法中使用Lambda表达式，表达式主体<strong>可以访问类的成员变量和局部变量(非final会自动隐含转为final)</strong></p>
+
+<p><strong>例：</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1. 不需要参数,返回值为 5  </span>
+<span class="o">()</span> <span class="o">-&gt;</span> <span class="mi">5</span>  
+  
+<span class="c1">// 2. 接收一个参数(数字类型),返回其2倍的值  </span>
+<span class="n">x</span> <span class="o">-&gt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span>  
+  
+<span class="c1">// 3. 接受2个参数(数字),并返回他们的差值  </span>
+<span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="err">–</span> <span class="n">y</span>  
+  
+<span class="c1">// 4. 接收2个int型整数,返回他们的和  </span>
+<span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>  
+  
+<span class="c1">// 5. 接受一个 string 对象,并在控制台打印,不返回任何值</span>
+<span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">s</span><span class="o">);</span> 
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"我是代码块"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<h4 id="函数式接口">函数式接口</h4>
+
+<p><strong>个人理解</strong> <br />
+<strong>函数式接口</strong>: 用来接收Lambda表达式实现的方法的一种特殊的接口。我们知道传统的接口中的方法会有实现类去实现接口，我们可以理解这个接口就是实现类方法的接收者。而Lambda表达式，是在编译器转换成普通代码的，但是Lambda并没有标识方法名的地方，如果用一般的接口去接受Lambda，编译器并不知道你实现的是那个方法。所以就有了函数式接口，规定<strong><code class="highlighter-rouge">函数式接口必须只包含一个抽象方法</code></strong>，这样解决了这个问题。</p>
+
+<p><strong>函数描述符</strong>是描述函数接口的一种方式，只关心入参和出参</p>
+
+<p><strong>常见的函数式接口</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">函数式接口</th>
+      <th style="text-align: left">函数描述符</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Predicate</td>
+      <td style="text-align: left">T -&gt; boolean</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Consumer</td>
+      <td style="text-align: left">T -&gt; void</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Function</td>
+      <td style="text-align: left">T -&gt; R</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Supplier</td>
+      <td style="text-align: left">( ) -&gt; T</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><a href="http://www.runoob.com/java/java8-functional-interfaces.html">更多的函数式接口</a></p>
+</blockquote>
+
+<h3 id="stream-api">Stream API</h3>
+
+<p>在Java 8之前我们使用集合，过滤，分组，变成map等需要写很多代码，而java 8之后提供了很强大的API操作，命令式的编程让你写更少的代码完成对集合的操作。</p>
+
+<h4 id="普通流">普通流</h4>
+
+<p><strong>Stream</strong>操作分为两大类，<code class="highlighter-rouge">中间操作</code>和<code class="highlighter-rouge">终端流</code></p>
+<blockquote>
+  <p><strong>中间操作：</strong>是会惰式执行，并不会消耗流。</p>
+
+  <p><strong>终端操作：</strong>是会实际计算，并会消耗流，流只会被消耗一次。</p>
+</blockquote>
+
+<p><strong>流收集器</strong></p>
+
+<p>在我们使用<code class="highlighter-rouge">终端流操作</code>的时候,可以使用流收集器Collectiors,来完成我们对流的收集。</p>
+
+<p><strong>例</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="cm">/**
+     * 中间流
+     */</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"all"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">intermediateFlow</span><span class="o">()</span> <span class="o">{</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="n">Student</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+        <span class="c1">// 过滤</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">nonNull</span><span class="o">);</span>
+
+        <span class="c1">// 去重</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">();</span>
+
+        <span class="c1">// 排序</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">sorted</span><span class="o">();</span>
+
+        <span class="c1">// 切片</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">skip</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="na">limit</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+
+        <span class="c1">// 映射</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;&gt;</span> <span class="n">lists</span> <span class="o">=</span> <span class="n">Lists</span><span class="o">.</span><span class="na">newArrayList</span><span class="o">(</span><span class="n">students</span><span class="o">,</span> <span class="n">students</span><span class="o">);</span>
+        <span class="n">lists</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">flatMap</span><span class="o">(</span><span class="nl">Stream:</span><span class="o">:</span><span class="n">of</span><span class="o">);</span>
+
+        <span class="c1">// 特殊的map</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">peek</span><span class="o">(</span><span class="n">student</span> <span class="o">-&gt;</span> <span class="n">student</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"我执行过peek方法"</span><span class="o">));</span>
+
+        <span class="c1">// 数值流 减少不必要的 装箱拆箱操作</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToInt</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">);</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToLong</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getId</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 终端流
+     */</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"all"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">terminalFlow</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="n">Student</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+
+        <span class="c1">// 循环</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">student</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"我是代码块"</span><span class="o">);</span>
+        <span class="o">});</span>
+
+        <span class="c1">// 查找</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">findFirst</span><span class="o">();</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">findAny</span><span class="o">();</span>
+
+        <span class="c1">// 匹配</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">allMatch</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">nonNull</span><span class="o">);</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">anyMatch</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">isNull</span><span class="o">);</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">noneMatch</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">isNull</span><span class="o">);</span>
+
+        <span class="c1">// 规约</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">reduce</span><span class="o">((</span><span class="n">student</span><span class="o">,</span> <span class="n">student1</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">student</span><span class="o">);</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">reduce</span><span class="o">(</span><span class="k">new</span> <span class="n">Student</span><span class="o">(),</span> <span class="o">(</span><span class="n">student</span><span class="o">,</span> <span class="n">student2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">student</span><span class="o">);</span>
+
+        <span class="c1">// 最大、最小</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">max</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">min</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+
+        <span class="c1">// 收集</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 流收集器
+     */</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"all"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">collectors</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="n">Student</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+
+        <span class="c1">// 收集List</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+
+        <span class="c1">// 收集成Set</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toSet</span><span class="o">());</span>
+
+        <span class="c1">// 收集成map</span>
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">,</span> <span class="n">Student</span><span class="o">&gt;</span> <span class="n">studentMap</span> <span class="o">=</span> <span class="n">Maps</span><span class="o">.</span><span class="na">newHashMap</span><span class="o">();</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getId</span><span class="o">,</span> <span class="n">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">()));</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getId</span><span class="o">,</span> <span class="n">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span> <span class="o">(</span><span class="n">k1</span><span class="o">,</span> <span class="n">k2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">k1</span><span class="o">));</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getId</span><span class="o">,</span> <span class="n">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span> <span class="o">(</span><span class="n">k1</span><span class="o">,</span> <span class="n">k2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">k1</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">studentMap</span><span class="o">));</span>
+
+        <span class="c1">// 求数量和</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">counting</span><span class="o">());</span>
+
+        <span class="c1">// 最大、最小</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">minBy</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">)));</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">maxBy</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">)));</span>
+
+        <span class="c1">// 求和</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">summingInt</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+
+        <span class="c1">// 求平均</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">averagingInt</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+
+        <span class="c1">// 统计值 最大、最小、平均、和</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">summarizingInt</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+
+        <span class="c1">// 连接字符串</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getName</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">());</span>
+
+        <span class="c1">// 分组</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+        <span class="c1">// 多级分组</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">,</span> <span class="n">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getGender</span><span class="o">)));</span>
+        <span class="c1">// 按分组收集数据</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span>
+            <span class="n">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">,</span> <span class="n">Collectors</span><span class="o">.</span><span class="na">mapping</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getName</span><span class="o">,</span> <span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">())));</span>
+
+        <span class="c1">// 分区</span>
+        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">partitioningBy</span><span class="o">(</span><span class="n">o</span> <span class="o">-&gt;</span> <span class="n">o</span><span class="o">.</span><span class="na">getGender</span><span class="o">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="o">));</span>
+
+    <span class="o">}</span>
+
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">流API</code>的使用就像英文字母一样和单词一样，我们可以将<code class="highlighter-rouge">中间操作</code>、<code class="highlighter-rouge">终端操作</code>、<code class="highlighter-rouge">流收集器</code>组成多种多样的效果。</p>
+
+<h4 id="并行流">并行流</h4>
+
+<p>Java8中提供了很方便的并行流编写方式，但是并不是所有对操作都是适合并行操作，而且并行流对性能对提升是需要不断调试才能达到最佳效果。不建议在直接使用并行流，所以在这里就不做过多解读。</p>
+
+<h3 id="新的时间api">新的时间API</h3>
+
+<p>Java8中提供了新的时间API，解决了之前时间API的缺点。</p>
+
+<h4 id="java早期日期api的缺陷">java早期日期api的缺陷</h4>
+<ul>
+  <li>
+    <p><strong>Java的日期/时间类的定义并不一致</strong>，在java.util和java.sql的包中都有日期类，此外用于格式化和解析的类在java.text包中定义。</p>
+  </li>
+  <li>
+    <p><strong>java.util.Date同时包含日期和时间</strong>，而java.sql.Date仅包含日期，将其纳入java.sql包并不合理。另外这两个类都有相同的名字，这本身就是一个非常糟糕的设计。</p>
+  </li>
+  <li>
+    <p><strong>对于时间、时间戳、格式化以及解析</strong>，并没有一些明确定义的类。对于格式化和解析的需求，我们有* java.text.DateFormat抽象类，但通常情况下，SimpleDateFormat类被用于此类需求。</p>
+  </li>
+  <li>
+    <p><strong>所有的日期类都是可变的</strong>，因此他们都不是线程安全的，这是Java日期类最大的问题之一。</p>
+  </li>
+  <li>
+    <p><strong>日期类并不提供国际化</strong>，没有时区支持，因此Java引入了java.util.Calendar和java.util.TimeZone类，但他们同样存在上述所有的问题。</p>
+  </li>
+</ul>
+
+<h4 id="java日期时间api包含以下相应的包">Java日期/时间API包含以下相应的包</h4>
+<ul>
+  <li>
+    <p><strong>java.time包</strong>：这是新的Java日期/时间API的基础包，所有的主要基础类都是这个包的一部分，如：LocalDate, LocalTime, LocalDateTime, Instant, Period, Duration等等。所有这些类都是不可变的   和线程安全的，在绝大多数情况下，这些类能够有效地处理一些公共的需求。</p>
+  </li>
+  <li>
+    <p><strong>java.time.chrono包</strong>：这个包为非ISO的日历系统定义了一些泛化的API，我们可以扩展AbstractChronology类来创建自己的日历系统。</p>
+  </li>
+  <li>
+    <p><strong>java.time.format包</strong>：这个包包含能够格式化和解析日期时间对象的类，在绝大多数情况下，我们不应该直接使用它们，因为java.time包中相应的类已经提供了格式化和解析的方法。</p>
+  </li>
+  <li>
+    <p><strong>java.time.temporal包</strong>：这个包包含一些时态对象，我们可以用其找出关于日期/时间对象的某个特定日期或时间，比如说，可以找到某月的第一天或最后一天。你可以非常容易地认出这些方法，因为它们都具有<code class="highlighter-rouge">withXXX</code>的格式。</p>
+  </li>
+  <li>
+    <p><strong>java.time.zone包</strong>：这个包包含支持不同时区以及相关规则的类。</p>
+  </li>
+</ul>
+
 
 
                 <hr style="visibility: hidden;">
@@ -207,9 +477,9 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2018/06/05/5%E5%88%86%E9%92%9F%E5%B8%A6%E4%BD%A0%E7%9C%8B%E5%AE%8C-WWDC-2018/" data-toggle="tooltip" data-placement="top" title="5分钟带你看完 WWDC 2018">
+                        <a href="/2017/02/16/Git-%E4%BB%A3%E7%A0%81%E5%9B%9E%E6%BB%9A/" data-toggle="tooltip" data-placement="top" title="Git 代码回滚">
                         Previous<br>
-                        <span>5分钟带你看完 WWDC 2018</span>
+                        <span>Git 代码回滚</span>
                         </a>
                     </li>
                     
@@ -218,26 +488,6 @@
 
 
                 <!--Gitalk评论start  -->
-                
-                <!-- 引入Gitalk评论插件  -->
-                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-                <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-                <div id="gitalk-container"></div>
-                <!-- 引入一个生产md5的js，用于对id值进行处理，防止其过长 -->
-                <!-- Thank DF:https://github.com/NSDingFan/NSDingFan.github.io/issues/3#issuecomment-407496538 -->
-                <script src="/js/md5.min.js"></script>
-                <script type="text/javascript">
-                    var gitalk = new Gitalk({
-                    clientID: 'f2c84e7629bb1446c1a4',
-                    clientSecret: 'ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d',
-                    repo: 'HDD.github.io',
-                    owner: 'HDD',
-                    admin: ['HDD'],
-                    distractionFreeMode: true,
-                    id: md5(location.pathname),
-                    });
-                    gitalk.render('gitalk-container');
-                </script>
                 
                 <!-- Gitalk end -->
 
@@ -276,177 +526,21 @@
                     <div class="tags">
         				
                             
-                				<a href="/tags/#iOS" title="iOS" rel="33">
-                                    iOS
-                                </a>
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#开发技巧" title="开发技巧" rel="7">
-                                    开发技巧
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#Debug" title="Debug" rel="2">
-                                    Debug
-                                </a>
-                            
-        				
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#Obj-C" title="Obj-C" rel="3">
-                                    Obj-C
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#Xcode" title="Xcode" rel="10">
-                                    Xcode
-                                </a>
-                            
-        				
-                            
-        				
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#ReactiveCocoa" title="ReactiveCocoa" rel="2">
-                                    ReactiveCocoa
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#函数式编程" title="函数式编程" rel="2">
-                                    函数式编程
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#开源框架" title="开源框架" rel="2">
-                                    开源框架
-                                </a>
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#Runtime" title="Runtime" rel="2">
-                                    Runtime
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#生活" title="生活" rel="5">
-                                    生活
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#Blog" title="Blog" rel="2">
-                                    Blog
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#Mac" title="Mac" rel="8">
+                				<a href="/tags/#Mac" title="Mac" rel="2">
                                     Mac
                                 </a>
                             
         				
                             
-                				<a href="/tags/#效率" title="效率" rel="3">
-                                    效率
-                                </a>
-                            
-        				
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#终端" title="终端" rel="7">
+                				<a href="/tags/#终端" title="终端" rel="2">
                                     终端
                                 </a>
                             
         				
                             
-                				<a href="/tags/#Git" title="Git" rel="5">
+                				<a href="/tags/#Git" title="Git" rel="2">
                                     Git
                                 </a>
-                            
-        				
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#Swift" title="Swift" rel="9">
-                                    Swift
-                                </a>
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#CocoaPods" title="CocoaPods" rel="2">
-                                    CocoaPods
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#zsh" title="zsh" rel="2">
-                                    zsh
-                                </a>
-                            
-        				
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#开源库" title="开源库" rel="2">
-                                    开源库
-                                </a>
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#ruby" title="ruby" rel="3">
-                                    ruby
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#shell" title="shell" rel="2">
-                                    shell
-                                </a>
-                            
-        				
-                            
-        				
-                            
-        				
-                            
-        				
-                            
-        				
-                            
-                				<a href="/tags/#健身" title="健身" rel="3">
-                                    健身
-                                </a>
-                            
-        				
-                            
-        				
                             
         				
                             
@@ -489,7 +583,7 @@
 <!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
 <script>
     async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
-        // BY Fix:去除标题前的‘#’ issues:<https://github.com/HDDChange/blog.github.io/issues/137>
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/HDDChange/blog/issues/137>
         // anchors.options = {
         //   visible: 'always',
         //   placement: 'right',
@@ -731,7 +825,7 @@
 
 
 <!-- Image to hack wechat -->
-<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<img src="/img/favicon.ico" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
