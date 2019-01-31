@@ -5,9 +5,23 @@
     <description>The harder, the luckier.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 31 Jan 2019 14:44:52 +0800</pubDate>
-    <lastBuildDate>Thu, 31 Jan 2019 14:44:52 +0800</lastBuildDate>
+    <pubDate>Thu, 31 Jan 2019 16:55:45 +0800</pubDate>
+    <lastBuildDate>Thu, 31 Jan 2019 16:55:45 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Shell学习</title>
+        <description>&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
+&lt;p&gt;在前段时间工作都时候，因为公司测试环境需要测试其他模块，而我这一块的功能由于默写原因不能合并到里面。所以我需要自己在服务器上搭建一套测试环境，开始接触到了shell，之前也用过ubuntu做为过个人操作系统，但是并没有系统的学习过Linux和shell（虽然学校教过），所以在这里记录一下自己学习shell的心得。&lt;/p&gt;
+</description>
+        <pubDate>Tue, 01 Jan 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/01/01/shell%E5%AD%A6%E4%B9%A0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/01/01/shell%E5%AD%A6%E4%B9%A0/</guid>
+        
+        <category>shell</category>
+        
+        
+      </item>
     
       <item>
         <title>快速学习Java8</title>
