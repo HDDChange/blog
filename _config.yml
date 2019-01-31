@@ -61,14 +61,14 @@ kramdown:
 # disqus_username: HDD
 
 # Gitalk
-# gitalk:
-#   enable: true    #是否开启Gitalk评论
-#   clientID: f2c84e7629bb1446c1a4                            #生成的clientID
-#   clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
-#   repo: HDD.github.io    #仓库名称
-#   owner: HDD    #github用户名
-#   admin: HDD
-#   distractionFreeMode: true #是否启用类似FB的阴影遮罩
+gitalk:
+  enable: true    #是否开启Gitalk评论
+  clientID: a0c39959747e92803467                            #生成的clientID
+  clientSecret: 1f02f27a8122bb97bf1bf75c5d83dda5c184dd13    #生成的clientSecret
+  repo: blog   #仓库名称
+  owner: HDDChange   #github用户名
+  admin: HDDChange
+  distractionFreeMode: true #是否启用类似FB的阴影遮罩
 
 
 # 统计

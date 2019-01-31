@@ -5,8 +5,8 @@
     <description>The harder, the luckier.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 31 Jan 2019 16:55:45 +0800</pubDate>
-    <lastBuildDate>Thu, 31 Jan 2019 16:55:45 +0800</lastBuildDate>
+    <pubDate>Thu, 31 Jan 2019 19:51:12 +0800</pubDate>
+    <lastBuildDate>Thu, 31 Jan 2019 19:51:12 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -298,8 +298,8 @@
 
 </description>
         <pubDate>Mon, 24 Dec 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/12/24/Java-%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0Java8/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/12/24/Java-%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0Java8/</guid>
+        <link>http://localhost:4000/2018/12/24/%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0Java8/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/12/24/%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0Java8/</guid>
         
         <category>Java8</category>
         
@@ -307,71 +307,7 @@
       </item>
     
       <item>
-        <title>Git 代码回滚</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;并不适合阅读的个人文档。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;git-revert-和-git-reset-的区别&quot;&gt;&lt;strong&gt;git revert&lt;/strong&gt; 和 &lt;strong&gt;git reset&lt;/strong&gt; 的区别&lt;/h1&gt;
-&lt;p&gt;先看图：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://ww3.sinaimg.cn/large/006tNbRwgy1fcr9tu6vdjj30t30ez0y8.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;sourceTree&lt;/strong&gt; 中 &lt;strong&gt;revert&lt;/strong&gt; 译为&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;提交回滚&lt;/code&gt;&lt;/strong&gt;，作用为忽略你指定的版本，然后提交一个新的版本。新的版本中已近删除了你所指定的版本。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;reset&lt;/strong&gt; 为 &lt;strong&gt;重置到这次提交&lt;/strong&gt;，将内容重置到指定的版本。&lt;code class=&quot;highlighter-rouge&quot;&gt;git reset&lt;/code&gt; 命令后面是需要加2种参数的：&lt;code class=&quot;highlighter-rouge&quot;&gt;–-hard&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;–-soft&lt;/code&gt;。这条命令默认情况下是 &lt;code class=&quot;highlighter-rouge&quot;&gt;-–soft&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;执行上述命令时，这该条commit号之 后（时间作为参考点）的所有commit的修改都会退回到git缓冲区中。使用&lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; 命令可以在缓冲区中看到这些修改。而如果加上&lt;code class=&quot;highlighter-rouge&quot;&gt;-–hard&lt;/code&gt;参数，则缓冲区中不会存储这些修改，git会直接丢弃这部分内容。可以使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git push origin HEAD --force&lt;/code&gt; 强制将分区内容推送到远程服务器。&lt;/p&gt;
-
-&lt;h4 id=&quot;代码回退&quot;&gt;代码回退&lt;/h4&gt;
-
-&lt;p&gt;默认参数 &lt;code class=&quot;highlighter-rouge&quot;&gt;-soft&lt;/code&gt;,所有commit的修改都会退回到git缓冲区
-参数&lt;code class=&quot;highlighter-rouge&quot;&gt;--hard&lt;/code&gt;，所有commit的修改直接丢弃&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git reset --hard HEAD^ 		回退到上个版本
-$ git reset --hard commit_id	退到/进到 指定commit_id 推送到远程	
-
-$ git push origin HEAD --force
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;可以吃的后悔药-版本穿梭&quot;&gt;可以吃的后悔药-&amp;gt;版本穿梭&lt;/h4&gt;
-
-&lt;p&gt;当你回滚之后，又后悔了，想恢复到新的版本怎么办？&lt;/p&gt;
-
-&lt;p&gt;用&lt;code class=&quot;highlighter-rouge&quot;&gt;git reflog&lt;/code&gt;打印你记录你的每一次操作记录&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git reflog
-
-输出：
-c7edbfe HEAD@{0}: reset: moving to c7edbfefab1bdbef6cb60d2a7bb97aa80f022687
-470e9c2 HEAD@{1}: reset: moving to 470e9c2
-b45959e HEAD@{2}: revert: Revert &quot;add img&quot;
-470e9c2 HEAD@{3}: reset: moving to 470e9c2
-2c26183 HEAD@{4}: reset: moving to 2c26183
-0f67bb7 HEAD@{5}: revert: Revert &quot;add img&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;找到你操作的id如：&lt;code class=&quot;highlighter-rouge&quot;&gt;b45959e&lt;/code&gt;，就可以回退到这个版本&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git reset --hard b45959e
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Thu, 16 Feb 2017 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/02/16/Git-%E4%BB%A3%E7%A0%81%E5%9B%9E%E6%BB%9A/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/02/16/Git-%E4%BB%A3%E7%A0%81%E5%9B%9E%E6%BB%9A/</guid>
-        
-        <category>Mac</category>
-        
-        <category>终端</category>
-        
-        <category>Git</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Git指令整理</title>
+        <title>Git学习</title>
         <description>&lt;blockquote&gt;
   &lt;p&gt;随便整理的一些自用的Git指令&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -646,14 +582,55 @@ $ git stash pop
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 生成一个可供发布的压缩包
 $ git archives
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;git-revert-和-git-reset-的区别&quot;&gt;&lt;strong&gt;git revert&lt;/strong&gt; 和 &lt;strong&gt;git reset&lt;/strong&gt; 的区别&lt;/h1&gt;
+&lt;p&gt;先看图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ww3.sinaimg.cn/large/006tNbRwgy1fcr9tu6vdjj30t30ez0y8.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;sourceTree&lt;/strong&gt; 中 &lt;strong&gt;revert&lt;/strong&gt; 译为&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;提交回滚&lt;/code&gt;&lt;/strong&gt;，作用为忽略你指定的版本，然后提交一个新的版本。新的版本中已近删除了你所指定的版本。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;reset&lt;/strong&gt; 为 &lt;strong&gt;重置到这次提交&lt;/strong&gt;，将内容重置到指定的版本。&lt;code class=&quot;highlighter-rouge&quot;&gt;git reset&lt;/code&gt; 命令后面是需要加2种参数的：&lt;code class=&quot;highlighter-rouge&quot;&gt;–-hard&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;–-soft&lt;/code&gt;。这条命令默认情况下是 &lt;code class=&quot;highlighter-rouge&quot;&gt;-–soft&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;执行上述命令时，这该条commit号之 后（时间作为参考点）的所有commit的修改都会退回到git缓冲区中。使用&lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; 命令可以在缓冲区中看到这些修改。而如果加上&lt;code class=&quot;highlighter-rouge&quot;&gt;-–hard&lt;/code&gt;参数，则缓冲区中不会存储这些修改，git会直接丢弃这部分内容。可以使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git push origin HEAD --force&lt;/code&gt; 强制将分区内容推送到远程服务器。&lt;/p&gt;
+
+&lt;h4 id=&quot;代码回退&quot;&gt;代码回退&lt;/h4&gt;
+
+&lt;p&gt;默认参数 &lt;code class=&quot;highlighter-rouge&quot;&gt;-soft&lt;/code&gt;,所有commit的修改都会退回到git缓冲区
+参数&lt;code class=&quot;highlighter-rouge&quot;&gt;--hard&lt;/code&gt;，所有commit的修改直接丢弃&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git reset --hard HEAD^ 		回退到上个版本
+$ git reset --hard commit_id	退到/进到 指定commit_id 推送到远程	
+
+$ git push origin HEAD --force
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;可以吃的后悔药-版本穿梭&quot;&gt;可以吃的后悔药-&amp;gt;版本穿梭&lt;/h4&gt;
+
+&lt;p&gt;当你回滚之后，又后悔了，想恢复到新的版本怎么办？&lt;/p&gt;
+
+&lt;p&gt;用&lt;code class=&quot;highlighter-rouge&quot;&gt;git reflog&lt;/code&gt;打印你记录你的每一次操作记录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git reflog
+
+输出：
+c7edbfe HEAD@{0}: reset: moving to c7edbfefab1bdbef6cb60d2a7bb97aa80f022687
+470e9c2 HEAD@{1}: reset: moving to 470e9c2
+b45959e HEAD@{2}: revert: Revert &quot;add img&quot;
+470e9c2 HEAD@{3}: reset: moving to 470e9c2
+2c26183 HEAD@{4}: reset: moving to 2c26183
+0f67bb7 HEAD@{5}: revert: Revert &quot;add img&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;找到你操作的id如：&lt;code class=&quot;highlighter-rouge&quot;&gt;b45959e&lt;/code&gt;，就可以回退到这个版本&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git reset --hard b45959e
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 </description>
         <pubDate>Wed, 15 Feb 2017 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/02/15/Git%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/02/15/Git%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86/</guid>
-        
-        <category>Mac</category>
-        
-        <category>终端</category>
+        <link>http://localhost:4000/2017/02/15/Git%E5%AD%A6%E4%B9%A0/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/02/15/Git%E5%AD%A6%E4%B9%A0/</guid>
         
         <category>Git</category>
         

@@ -10,7 +10,7 @@
     <meta name="keywords"  content="HDD, HDD Blog, 黄呆呆的博客, HDDChange, 黄呆呆, java">
     <meta name="theme-color" content="#000000">
     
-    <title>Git指令整理 - 黄呆呆的博客 | HDD Blog</title>
+    <title>Git学习 - 黄呆呆的博客 | HDD Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -22,7 +22,7 @@
     <link rel="apple-touch-icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/02/15/Git%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86/">
+    <link rel="canonical" href="http://localhost:4000/2017/02/15/Git%E5%AD%A6%E4%B9%A0/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -173,19 +173,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Mac" title="Mac">Mac</a>
-                        
-                        <a class="tag" href="/tags/#终端" title="终端">终端</a>
-                        
                         <a class="tag" href="/tags/#Git" title="Git">Git</a>
                         
                     </div>
-                    <h1>Git指令整理</h1>
+                    <h1>Git学习</h1>
                     
                     
-                    <h2 class="subheading">不适合阅读的整理的一些个人常用的 Git 指令</h2>
+                    <h2 class="subheading">日常git学习整理</h2>
                     
-                    <span class="meta">Posted by BY on February 15, 2017</span>
+                    <span class="meta">Posted by HDD on February 15, 2017</span>
                 </div>
             </div>
         </div>
@@ -478,6 +474,51 @@ $ git stash pop
 $ git archives
 </code></pre></div></div>
 
+<h1 id="git-revert-和-git-reset-的区别"><strong>git revert</strong> 和 <strong>git reset</strong> 的区别</h1>
+<p>先看图：</p>
+
+<p><img src="https://ww3.sinaimg.cn/large/006tNbRwgy1fcr9tu6vdjj30t30ez0y8.jpg" alt="" /></p>
+
+<p><strong>sourceTree</strong> 中 <strong>revert</strong> 译为<strong><code class="highlighter-rouge">提交回滚</code></strong>，作用为忽略你指定的版本，然后提交一个新的版本。新的版本中已近删除了你所指定的版本。</p>
+
+<p><strong>reset</strong> 为 <strong>重置到这次提交</strong>，将内容重置到指定的版本。<code class="highlighter-rouge">git reset</code> 命令后面是需要加2种参数的：<code class="highlighter-rouge">–-hard</code> 和 <code class="highlighter-rouge">–-soft</code>。这条命令默认情况下是 <code class="highlighter-rouge">-–soft</code>。</p>
+
+<p>执行上述命令时，这该条commit号之 后（时间作为参考点）的所有commit的修改都会退回到git缓冲区中。使用<code class="highlighter-rouge">git status</code> 命令可以在缓冲区中看到这些修改。而如果加上<code class="highlighter-rouge">-–hard</code>参数，则缓冲区中不会存储这些修改，git会直接丢弃这部分内容。可以使用 <code class="highlighter-rouge">git push origin HEAD --force</code> 强制将分区内容推送到远程服务器。</p>
+
+<h4 id="代码回退">代码回退</h4>
+
+<p>默认参数 <code class="highlighter-rouge">-soft</code>,所有commit的修改都会退回到git缓冲区
+参数<code class="highlighter-rouge">--hard</code>，所有commit的修改直接丢弃</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git reset --hard HEAD^ 		回退到上个版本
+$ git reset --hard commit_id	退到/进到 指定commit_id 推送到远程	
+
+$ git push origin HEAD --force
+</code></pre></div></div>
+
+<h4 id="可以吃的后悔药-版本穿梭">可以吃的后悔药-&gt;版本穿梭</h4>
+
+<p>当你回滚之后，又后悔了，想恢复到新的版本怎么办？</p>
+
+<p>用<code class="highlighter-rouge">git reflog</code>打印你记录你的每一次操作记录</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git reflog
+
+输出：
+c7edbfe HEAD@{0}: reset: moving to c7edbfefab1bdbef6cb60d2a7bb97aa80f022687
+470e9c2 HEAD@{1}: reset: moving to 470e9c2
+b45959e HEAD@{2}: revert: Revert "add img"
+470e9c2 HEAD@{3}: reset: moving to 470e9c2
+2c26183 HEAD@{4}: reset: moving to 2c26183
+0f67bb7 HEAD@{5}: revert: Revert "add img"
+</code></pre></div></div>
+
+<p>找到你操作的id如：<code class="highlighter-rouge">b45959e</code>，就可以回退到这个版本</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git reset --hard b45959e
+</code></pre></div></div>
+
+
 
                 <hr style="visibility: hidden;">
 
@@ -485,9 +526,9 @@ $ git archives
                     
                     
                     <li class="next">
-                        <a href="/2017/02/16/Git-%E4%BB%A3%E7%A0%81%E5%9B%9E%E6%BB%9A/" data-toggle="tooltip" data-placement="top" title="Git 代码回滚">
+                        <a href="/2018/12/24/%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0Java8/" data-toggle="tooltip" data-placement="top" title="快速学习Java8">
                         Next<br>
-                        <span>Git 代码回滚</span>
+                        <span>快速学习Java8</span>
                         </a>
                     </li>
                     
@@ -495,6 +536,26 @@ $ git archives
 
 
                 <!--Gitalk评论start  -->
+                
+                <!-- 引入Gitalk评论插件  -->
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <!-- 引入一个生产md5的js，用于对id值进行处理，防止其过长 -->
+                <!-- Thank DF:https://github.com/NSDingFan/NSDingFan.github.io/issues/3#issuecomment-407496538 -->
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                    clientID: 'a0c39959747e92803467',
+                    clientSecret: '1f02f27a8122bb97bf1bf75c5d83dda5c184dd13',
+                    repo: 'blog',
+                    owner: 'HDDChange',
+                    admin: ['HDDChange'],
+                    distractionFreeMode: true,
+                    id: md5(location.pathname),
+                    });
+                    gitalk.render('gitalk-container');
+                </script>
                 
                 <!-- Gitalk end -->
 
@@ -532,22 +593,6 @@ $ git archives
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
         				
-                            
-                				<a href="/tags/#Mac" title="Mac" rel="2">
-                                    Mac
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#终端" title="终端" rel="2">
-                                    终端
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#Git" title="Git" rel="2">
-                                    Git
-                                </a>
                             
         				
                             
