@@ -5,7 +5,7 @@ header-img: img/post-bg-desk.jpg
 email: 814694804@qq.com
 description: "The harder, the luckier."
 keyword: "HDD, HDD Blog, 黄呆呆的博客, HDDChange, 黄呆呆, java"
-url: "https://hddchange.github.io"          # your host, for absolute URL
+url: "https://github.com/HDDChange/blog"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 github_repo: "https://github.com/HDDChange/blog.git" # you code repository
 
@@ -21,6 +21,7 @@ RSS: false
 # weibo_username:     
 zhihu_username:     黄呆呆
 github_username:    HDDChange
+repo:  blog
 # facebook_username:  
 # jianshu_username:   
 #twitter_username:   HDD
