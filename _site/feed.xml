@@ -5,14 +5,95 @@
     <description>The harder, the luckier.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 31 Jan 2019 19:51:12 +0800</pubDate>
-    <lastBuildDate>Thu, 31 Jan 2019 19:51:12 +0800</lastBuildDate>
+    <pubDate>Thu, 14 Feb 2019 01:31:25 +0800</pubDate>
+    <lastBuildDate>Thu, 14 Feb 2019 01:31:25 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
         <title>Shell学习</title>
         <description>&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
 &lt;p&gt;在前段时间工作都时候，因为公司测试环境需要测试其他模块，而我这一块的功能由于默写原因不能合并到里面。所以我需要自己在服务器上搭建一套测试环境，开始接触到了shell，之前也用过ubuntu做为过个人操作系统，但是并没有系统的学习过Linux和shell（虽然学校教过），所以在这里记录一下自己学习shell的心得。&lt;/p&gt;
+
+&lt;h3 id=&quot;linux系统启动流程&quot;&gt;Linux系统启动流程&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;第一步：首先BIOS系统会加电自检（主要检查硬件有没有问题），然后BIOS系统会引导系统，BIOS默认回从硬盘上的第0柱面，第0磁道，，第一扇区中读取被称为MBR的东西，即主引导记录。&lt;/li&gt;
+  &lt;li&gt;第二步：一个扇区的大小是512字节，存放的是引导程序和分区信息，这些内容都是由专门的分区程序产生的。MBR中的引导程序是可以修改的，所以可以利用这个特性实现多操作系统共存。许多的linux系统会默认使用Grub作为引导程序，常见的是将Grup的地址写到MBR中（应为Grup太大了）。&lt;/li&gt;
+  &lt;li&gt;第三步：运行Grup，根据其配置文件加载kernel镜像，并运行内核加载后第一个程序/sbin/init，这个程序回根据/etc/inittab来进行初始化的工作。&lt;/li&gt;
+  &lt;li&gt;第四步：Linux将根据/etc/inittab中定义的系统初始化配置si::sysinit:/etc/rc.d/rc.sysinit执行/etc/rc.sysinit脚本，该脚本将会设置系统变量、网络配置，并配置swap、设定/proc、加载用户自定义模块、加载内核设置等。&lt;/li&gt;
+  &lt;li&gt;第五步：根据第三步读到的runlevel值来启动对应的服务，如果值是3，就会运行/etc/rc3.d/下所有的脚本。&lt;/li&gt;
+  &lt;li&gt;第六步：将运行/etc/rc.local&lt;/li&gt;
+  &lt;li&gt;第七步：会生成终端或X Window来等待用户登录。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;runlevel系统运行级别&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;0: 关机&lt;/p&gt;
+
+  &lt;p&gt;1: 单用户模式，系统出现问题时可使用这种模式进入系统维护（忘了root密码修改root密码）&lt;/p&gt;
+
+  &lt;p&gt;2: 多用户模式，没有网络连接&lt;/p&gt;
+
+  &lt;p&gt;3: 完全多用户模式&lt;/p&gt;
+
+  &lt;p&gt;4: 保留未使用&lt;/p&gt;
+
+  &lt;p&gt;5: 窗口模式，支持多用户，支持网络&lt;/p&gt;
+
+  &lt;p&gt;6: 重启&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;linux系统命令学习&quot;&gt;Linux系统命令学习&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Linux系统使用帮助&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;man&lt;/strong&gt; 命令,使用&lt;code class=&quot;highlighter-rouge&quot;&gt;man 命令&lt;/code&gt;可以查看该命令的具体作用。man命令会对linux命令的说明文档分类。9种分类：&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;常见命令说明&lt;/li&gt;
+      &lt;li&gt;可调用的系统&lt;/li&gt;
+      &lt;li&gt;函数库&lt;/li&gt;
+      &lt;li&gt;设备文件&lt;/li&gt;
+      &lt;li&gt;文件格式&lt;/li&gt;
+      &lt;li&gt;游戏说明&lt;/li&gt;
+      &lt;li&gt;杂项&lt;/li&gt;
+      &lt;li&gt;系统管理员可用的命令&lt;/li&gt;
+      &lt;li&gt;与内核相关等说明
+使用&lt;code class=&quot;highlighter-rouge&quot;&gt;man -f 命令&lt;/code&gt;可是查看命令在不同分类中的说明&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;shell判断命令是否存在&quot;&gt;shell判断命令是否存在&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;command
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c&quot;&gt;#! /bin/bash&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; git &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;/dev/null 2&amp;gt;&amp;amp;1&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then 
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'exists git'&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;else 
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'no exists git'&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;type
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c&quot;&gt;#! /bin/bash&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;type &lt;/span&gt;git &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;/dev/null 2&amp;gt;&amp;amp;1&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then 
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'exists git'&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;else 
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'no exists git'&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;hash
+    &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c&quot;&gt;#! /bin/bash&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hash &lt;/span&gt;git 2&amp;gt;/dev/null&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then 
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'exists git'&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;else 
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'no exists git'&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 </description>
         <pubDate>Tue, 01 Jan 2019 00:00:00 +0800</pubDate>
         <link>http://localhost:4000/2019/01/01/shell%E5%AD%A6%E4%B9%A0/</link>
