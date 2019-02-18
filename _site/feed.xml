@@ -5,8 +5,8 @@
     <description>The harder, the luckier.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 15 Feb 2019 09:57:13 +0800</pubDate>
-    <lastBuildDate>Fri, 15 Feb 2019 09:57:13 +0800</lastBuildDate>
+    <pubDate>Tue, 19 Feb 2019 01:13:43 +0800</pubDate>
+    <lastBuildDate>Tue, 19 Feb 2019 01:13:43 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -151,7 +151,7 @@
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;chmod&lt;/strong&gt;修改文件权限
-文件所有者&lt;code class=&quot;highlighter-rouge&quot;&gt;u&lt;/code&gt;、所属组&lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt;、其他人&lt;code class=&quot;highlighter-rouge&quot;&gt;o&lt;/code&gt;,权限为 读&lt;code class=&quot;highlighter-rouge&quot;&gt;r&lt;/code&gt; = 3、写&lt;code class=&quot;highlighter-rouge&quot;&gt;w&lt;/code&gt; = 2、执行&lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; = 1&lt;/p&gt;
+文件所有者&lt;code class=&quot;highlighter-rouge&quot;&gt;u&lt;/code&gt;、所属组&lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt;、其他人&lt;code class=&quot;highlighter-rouge&quot;&gt;o&lt;/code&gt;,权限为 读&lt;code class=&quot;highlighter-rouge&quot;&gt;r&lt;/code&gt; = 3、写&lt;code class=&quot;highlighter-rouge&quot;&gt;w&lt;/code&gt; = 2、执行&lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; = 1,s权限，t权限&lt;/p&gt;
 
     &lt;p&gt;例：
   &lt;code class=&quot;highlighter-rouge&quot;&gt;chmod u+x 文件&lt;/code&gt;就是给文件所有者授执行该文件的权限&lt;/p&gt;
@@ -159,7 +159,17 @@
     &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;chmod 700 文件&lt;/code&gt;就是给文件所有者授权读写执行的权限，所有组和其他人不授任何权限&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;chown&lt;/strong&gt;更改文件所有者，同时更改文件所属组&lt;/li&gt;
-  &lt;li&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;chgrp&lt;/strong&gt;改变文件的拥有组
+&lt;strong&gt;查找文件&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;find&lt;/strong&gt;一般查找&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;locate&lt;/strong&gt;
+使用前最好先执行一下&lt;code class=&quot;highlighter-rouge&quot;&gt;updatedb&lt;/code&gt;命令&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;which/whereis&lt;/strong&gt;
+&lt;strong&gt;文件压缩/打包&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;gzip/gunzip&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;tar&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;bzip2&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;cpio&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;linux系统用户管理&quot;&gt;Linux系统用户管理&lt;/h3&gt;
@@ -180,8 +190,10 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;linux文件管理&quot;&gt;Linux文件管理&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;FHS文件系统&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;分区、文件系统、挂载、物理卷、逻辑卷、卷组、硬连接、软连接&lt;/strong&gt;
+&lt;strong&gt;FHS文件系统&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -254,7 +266,65 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;h3 id=&quot;shell判断命令是否存在&quot;&gt;shell判断命令是否存在&lt;/h3&gt;
+&lt;h3 id=&quot;字符处理&quot;&gt;字符处理&lt;/h3&gt;
+
+&lt;h4 id=&quot;管道&quot;&gt;管道&lt;/h4&gt;
+&lt;p&gt;在Linux系统中管道指的是指定大小的缓冲区（1页，4k字节）,我们可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;|&lt;/code&gt;来连接进程，管道的表象为&lt;strong&gt;输入输出的重定向&lt;/strong&gt;的一种方法。&lt;/p&gt;
+
+&lt;p&gt;例：&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-C&lt;/span&gt; 3 &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; exception error.log | less
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;文件字符命令&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;sort&lt;/strong&gt; 排序&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;uniq&lt;/strong&gt; 删除重复内容&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;cut&lt;/strong&gt; 截取文本&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;tr&lt;/strong&gt; 文本转换&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;paste&lt;/strong&gt; 文本合并&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;split&lt;/strong&gt; 分割大文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;网络管理&quot;&gt;网络管理&lt;/h3&gt;
+&lt;h4 id=&quot;网络名词&quot;&gt;网络名词&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;网卡、路由、网关、DNS&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;配置文件&quot;&gt;配置文件&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;/etc/hosts、/etc/resolv.conf&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;命令&quot;&gt;命令&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;ifconfig、ping、host、traceroute&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;进程管理&quot;&gt;进程管理&lt;/h3&gt;
+&lt;p&gt;进程是计算机中的程序关于某数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。&lt;/p&gt;
+
+&lt;p&gt;进程的5种状态
+&lt;img src=&quot;/img/doc_shell_01.png&quot; alt=&quot;进程状态转换图&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;进程之间存在着&lt;strong&gt;同步&lt;/strong&gt;或&lt;strong&gt;互斥&lt;/strong&gt;的关系，现在计算机一般都是使用信号量机制来直线进程的通信，从而实现进程之间的&lt;strong&gt;同步与互斥&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h4 id=&quot;命令-1&quot;&gt;命令&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;ps&lt;/strong&gt;
+查看当前进程的瞬间的状态信息&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;top&lt;/strong&gt;
+动态及时的查看进程的状态信息&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+Processes: 286 total, 3 running, 1 stuck, 282 sleeping, 1918 threads                                                                                                                               01:02:02
+Load Avg: 2.06, 1.84, 1.84  CPU usage: 11.66% user, 8.85% sys, 79.48% idle  SharedLibs: 132M resident, 48M data, 18M linkedit. MemRegions: 106912 total, 1984M resident, 59M private, 607M shared.
+PhysMem: 7720M used &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2290M wired&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 470M unused. VM: 1783G vsize, 1297M framework vsize, 5156672&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;64&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; swapins, 5902321&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; swapouts.      Networks: packets: 4158928/2397M &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;, 3457000/435M out.
+Disks: 1390495/33G &lt;span class=&quot;nb&quot;&gt;read&lt;/span&gt;, 1046296/38G written.
+
+PID    COMMAND      %CPU TIME     &lt;span class=&quot;c&quot;&gt;#TH   #WQ  #PORTS MEM    PURG   CMPRS  PGRP  PPID STATE    BOOSTS           %CPU_ME %CPU_OTHRS UID  FAULTS    COW     MSGSENT   MSGRECV   SYSBSD     SYSMACH   CSW&lt;/span&gt;
+63464  top          12.9 00:01.40 1/1   0    25     5072K  0B     0B     63464 373  running  &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;0[1]            0.00000 0.00000    0    8050+     120     422778+   211361+   25947+     272610+   1171
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;第一行:&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;shell常用脚本&quot;&gt;shell常用脚本&lt;/h3&gt;
+&lt;h4 id=&quot;shell判断命令是否存在&quot;&gt;shell判断命令是否存在&lt;/h4&gt;
 &lt;ul&gt;
   &lt;li&gt;command
     &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c&quot;&gt;#! /bin/bash&lt;/span&gt;
