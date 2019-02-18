@@ -5,8 +5,8 @@
     <description>The harder, the luckier.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 14 Feb 2019 16:13:23 +0800</pubDate>
-    <lastBuildDate>Thu, 14 Feb 2019 16:13:23 +0800</lastBuildDate>
+    <pubDate>Fri, 15 Feb 2019 09:57:13 +0800</pubDate>
+    <lastBuildDate>Fri, 15 Feb 2019 09:57:13 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -46,7 +46,7 @@
 
 &lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Linux系统使用帮助&lt;/strong&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;strong&gt;使用帮助&lt;/strong&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;strong&gt;man&lt;/strong&gt; 命令,使用&lt;code class=&quot;highlighter-rouge&quot;&gt;man 命令&lt;/code&gt;可以查看该命令的具体作用。man命令会对linux命令的说明文档分类。9种分类：&lt;/p&gt;
     &lt;ul&gt;
@@ -62,7 +62,197 @@
 使用&lt;code class=&quot;highlighter-rouge&quot;&gt;man -f 命令&lt;/code&gt;可是查看命令在不同分类中的说明&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;w&lt;/strong&gt;命令
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  17:51  up 21 days,  8:11, 2 users, load averages: 1.93 1.99 2.05
+  USER     TTY      FROM              LOGIN@  IDLE WHAT
+  hddchange console  -                24Jan19 21days -
+  hddchange s002     -                 9:48       - w
+  登录用户名 登录终端  如果是网络登录，则显示主机名或ip  登录时间  闲置时间  与终端相关的当前所有运行进程消耗的CPU时间总量  当前WHAT列所对应的进程所消耗的CPU时间总量  当前运行的进程
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;su&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;su切换用户需要知道对应用户密码，su - 切换到对应用户环境&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;sudo&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;sudo命令切换不需要知道对应用户的密码，使用root权限执行。Linux在执行sudo命令的时候会去&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/sudoers&lt;/code&gt;配置文件，查看当前用户是否有权限执行。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;at&lt;/strong&gt; 单一时刻执行一次任务&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;atq&lt;/code&gt;查询任务，&lt;code class=&quot;highlighter-rouge&quot;&gt;atrm&lt;/code&gt;删除任务&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;cron&lt;/strong&gt; 周期性执行任务&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;/etc/crontab&lt;/strong&gt;文件中设置有系统的周期任务&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;psd&lt;/strong&gt;现实当前目录&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;l&lt;/strong&gt;查看文件
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;drwxr-xr-x    6 root  wheel   192B Aug 18 07:17 wfs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;第一列：&lt;/p&gt;
+
+        &lt;table&gt;
+          &lt;thead&gt;
+            &lt;tr&gt;
+              &lt;th&gt;第一个字符&lt;/th&gt;
+              &lt;th&gt;含义&lt;/th&gt;
+            &lt;/tr&gt;
+          &lt;/thead&gt;
+          &lt;tbody&gt;
+            &lt;tr&gt;
+              &lt;td&gt;d&lt;/td&gt;
+              &lt;td&gt;目录&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;-&lt;/td&gt;
+              &lt;td&gt;普通文件&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;l&lt;/td&gt;
+              &lt;td&gt;连接文件&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;b&lt;/td&gt;
+              &lt;td&gt;块文件&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;c&lt;/td&gt;
+              &lt;td&gt;字符文件&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;s&lt;/td&gt;
+              &lt;td&gt;socket文件&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+              &lt;td&gt;p&lt;/td&gt;
+              &lt;td&gt;管道文件&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+
+        &lt;p&gt;接下来每3个字符为 &lt;code class=&quot;highlighter-rouge&quot;&gt;r、w、x&lt;/code&gt;的顺序组合，没有对应权限为&lt;code class=&quot;highlighter-rouge&quot;&gt;-&lt;/code&gt;,第一个组合为所有者的权限，第二个组合为所有组的权限，第三个组合为其他用户的权限&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;第二列：连接数&lt;/li&gt;
+      &lt;li&gt;第三列：文件所有人&lt;/li&gt;
+      &lt;li&gt;第四列：文件所有组&lt;/li&gt;
+      &lt;li&gt;第五列：文件大小&lt;/li&gt;
+      &lt;li&gt;第六列：文件最新修改时间&lt;/li&gt;
+      &lt;li&gt;第七列：文件名&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;chmod&lt;/strong&gt;修改文件权限
+文件所有者&lt;code class=&quot;highlighter-rouge&quot;&gt;u&lt;/code&gt;、所属组&lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt;、其他人&lt;code class=&quot;highlighter-rouge&quot;&gt;o&lt;/code&gt;,权限为 读&lt;code class=&quot;highlighter-rouge&quot;&gt;r&lt;/code&gt; = 3、写&lt;code class=&quot;highlighter-rouge&quot;&gt;w&lt;/code&gt; = 2、执行&lt;code class=&quot;highlighter-rouge&quot;&gt;x&lt;/code&gt; = 1&lt;/p&gt;
+
+    &lt;p&gt;例：
+  &lt;code class=&quot;highlighter-rouge&quot;&gt;chmod u+x 文件&lt;/code&gt;就是给文件所有者授执行该文件的权限&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;chmod 700 文件&lt;/code&gt;就是给文件所有者授权读写执行的权限，所有组和其他人不授任何权限&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;chown&lt;/strong&gt;更改文件所有者，同时更改文件所属组&lt;/li&gt;
+  &lt;li&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h3 id=&quot;linux系统用户管理&quot;&gt;Linux系统用户管理&lt;/h3&gt;
+&lt;p&gt;Linux系统的用户分为 &lt;code class=&quot;highlighter-rouge&quot;&gt;普通用户&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;根用户&lt;/code&gt;（root用户）、&lt;code class=&quot;highlighter-rouge&quot;&gt;系统用户&lt;/code&gt; ，Linux系统会使用&lt;code class=&quot;highlighter-rouge&quot;&gt;UID&lt;/code&gt;来记录用户。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;普通用户&lt;/strong&gt;的编号会从500往上，普通用户一般只能在其家目录、系统临时目录或其他经过授权的目录中操作，以及属于该用户的文件。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;系统用户&lt;/strong&gt;的编号为1-499，系统用户是指系统运行时必须有的用户（并不是真正的使用者）。使用mysql这个系统用户运行mysqld进程就是使用系统用户。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;root用户&lt;/strong&gt;的编号是0，对系统拥有完全的控制权。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在Linux系统中每个用户都必须至少属于一个&lt;code class=&quot;highlighter-rouge&quot;&gt;用户组&lt;/code&gt;，Linux系统使用GID来标示用户组&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;/etc/passwd&lt;/strong&gt;记录用户信息
+这里只是简单介绍下passwd文件，这是linux系统很早之前的策略，将用户密码直接记录到这个文件上，随着时代发展，各个linux系统衍生版，都有自己的实现策略。&lt;/p&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root:&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;:0:0:System Administrator:/var/root:/bin/sh
+用户名：密码：UID：GID：说明：家目录：登录后执行的shell
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;linux文件管理&quot;&gt;Linux文件管理&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;FHS文件系统&lt;/strong&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;目录&lt;/th&gt;
+      &lt;th&gt;用途&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/bin&lt;/td&gt;
+      &lt;td&gt;常见的用户指令&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/boot&lt;/td&gt;
+      &lt;td&gt;内核和启动文件&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/dev&lt;/td&gt;
+      &lt;td&gt;设备文件&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/etc&lt;/td&gt;
+      &lt;td&gt;系统和服务的配置文件&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/home&lt;/td&gt;
+      &lt;td&gt;系统默认的普通用户家目录&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/lib&lt;/td&gt;
+      &lt;td&gt;系统函数库目录&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/lost+found&lt;/td&gt;
+      &lt;td&gt;ext3文件系统需要的目录，用于磁盘检查&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/mnt&lt;/td&gt;
+      &lt;td&gt;系统加载文件系统时常用的挂载点&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/opt&lt;/td&gt;
+      &lt;td&gt;第三方软件安装目录&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/proc&lt;/td&gt;
+      &lt;td&gt;虚拟文件系统&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/root&lt;/td&gt;
+      &lt;td&gt;root用户的家目录&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/sbin&lt;/td&gt;
+      &lt;td&gt;存放系统管理命令&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;tmp&lt;/td&gt;
+      &lt;td&gt;临时文件的存放目录&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/usr&lt;/td&gt;
+      &lt;td&gt;存放与用户直接相关的文件和目录&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/media&lt;/td&gt;
+      &lt;td&gt;系统用来挂载光驱等临时文件系统的挂载点&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;h3 id=&quot;shell判断命令是否存在&quot;&gt;shell判断命令是否存在&lt;/h3&gt;
 &lt;ul&gt;

@@ -234,7 +234,7 @@
 
 <ul>
   <li>
-    <p><strong>Linux系统使用帮助</strong></p>
+    <p><strong>使用帮助</strong></p>
 
     <p><strong>man</strong> 命令,使用<code class="highlighter-rouge">man 命令</code>可以查看该命令的具体作用。man命令会对linux命令的说明文档分类。9种分类：</p>
     <ul>
@@ -250,7 +250,197 @@
 使用<code class="highlighter-rouge">man -f 命令</code>可是查看命令在不同分类中的说明</li>
     </ul>
   </li>
+  <li><strong>w</strong>命令
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  17:51  up 21 days,  8:11, 2 users, load averages: 1.93 1.99 2.05
+  USER     TTY      FROM              LOGIN@  IDLE WHAT
+  hddchange console  -                24Jan19 21days -
+  hddchange s002     -                 9:48       - w
+  登录用户名 登录终端  如果是网络登录，则显示主机名或ip  登录时间  闲置时间  与终端相关的当前所有运行进程消耗的CPU时间总量  当前WHAT列所对应的进程所消耗的CPU时间总量  当前运行的进程
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>su</strong></p>
+
+    <p>su切换用户需要知道对应用户密码，su - 切换到对应用户环境</p>
+  </li>
+  <li>
+    <p><strong>sudo</strong></p>
+
+    <p>sudo命令切换不需要知道对应用户的密码，使用root权限执行。Linux在执行sudo命令的时候会去<code class="highlighter-rouge">/etc/sudoers</code>配置文件，查看当前用户是否有权限执行。</p>
+  </li>
+  <li>
+    <p><strong>at</strong> 单一时刻执行一次任务</p>
+
+    <p><code class="highlighter-rouge">atq</code>查询任务，<code class="highlighter-rouge">atrm</code>删除任务</p>
+  </li>
+  <li>
+    <p><strong>cron</strong> 周期性执行任务</p>
+
+    <p><strong>/etc/crontab</strong>文件中设置有系统的周期任务</p>
+  </li>
+  <li>
+    <p><strong>psd</strong>现实当前目录</p>
+  </li>
+  <li><strong>l</strong>查看文件
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>drwxr-xr-x    6 root  wheel   192B Aug 18 07:17 wfs
+</code></pre></div>    </div>
+    <ul>
+      <li>
+        <p>第一列：</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>第一个字符</th>
+              <th>含义</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>d</td>
+              <td>目录</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>普通文件</td>
+            </tr>
+            <tr>
+              <td>l</td>
+              <td>连接文件</td>
+            </tr>
+            <tr>
+              <td>b</td>
+              <td>块文件</td>
+            </tr>
+            <tr>
+              <td>c</td>
+              <td>字符文件</td>
+            </tr>
+            <tr>
+              <td>s</td>
+              <td>socket文件</td>
+            </tr>
+            <tr>
+              <td>p</td>
+              <td>管道文件</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>接下来每3个字符为 <code class="highlighter-rouge">r、w、x</code>的顺序组合，没有对应权限为<code class="highlighter-rouge">-</code>,第一个组合为所有者的权限，第二个组合为所有组的权限，第三个组合为其他用户的权限</p>
+      </li>
+      <li>第二列：连接数</li>
+      <li>第三列：文件所有人</li>
+      <li>第四列：文件所有组</li>
+      <li>第五列：文件大小</li>
+      <li>第六列：文件最新修改时间</li>
+      <li>第七列：文件名</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>chmod</strong>修改文件权限
+文件所有者<code class="highlighter-rouge">u</code>、所属组<code class="highlighter-rouge">g</code>、其他人<code class="highlighter-rouge">o</code>,权限为 读<code class="highlighter-rouge">r</code> = 3、写<code class="highlighter-rouge">w</code> = 2、执行<code class="highlighter-rouge">x</code> = 1</p>
+
+    <p>例：
+  <code class="highlighter-rouge">chmod u+x 文件</code>就是给文件所有者授执行该文件的权限</p>
+
+    <p><code class="highlighter-rouge">chmod 700 文件</code>就是给文件所有者授权读写执行的权限，所有组和其他人不授任何权限</p>
+  </li>
+  <li><strong>chown</strong>更改文件所有者，同时更改文件所属组</li>
+  <li></li>
 </ul>
+
+<h3 id="linux系统用户管理">Linux系统用户管理</h3>
+<p>Linux系统的用户分为 <code class="highlighter-rouge">普通用户</code>、<code class="highlighter-rouge">根用户</code>（root用户）、<code class="highlighter-rouge">系统用户</code> ，Linux系统会使用<code class="highlighter-rouge">UID</code>来记录用户。</p>
+
+<ul>
+  <li><strong>普通用户</strong>的编号会从500往上，普通用户一般只能在其家目录、系统临时目录或其他经过授权的目录中操作，以及属于该用户的文件。</li>
+  <li><strong>系统用户</strong>的编号为1-499，系统用户是指系统运行时必须有的用户（并不是真正的使用者）。使用mysql这个系统用户运行mysqld进程就是使用系统用户。</li>
+  <li><strong>root用户</strong>的编号是0，对系统拥有完全的控制权。</li>
+</ul>
+
+<p>在Linux系统中每个用户都必须至少属于一个<code class="highlighter-rouge">用户组</code>，Linux系统使用GID来标示用户组</p>
+
+<p><strong>/etc/passwd</strong>记录用户信息
+这里只是简单介绍下passwd文件，这是linux系统很早之前的策略，将用户密码直接记录到这个文件上，随着时代发展，各个linux系统衍生版，都有自己的实现策略。</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root:<span class="k">*</span>:0:0:System Administrator:/var/root:/bin/sh
+用户名：密码：UID：GID：说明：家目录：登录后执行的shell
+</code></pre></div></div>
+
+<h3 id="linux文件管理">Linux文件管理</h3>
+
+<p><strong>FHS文件系统</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>目录</th>
+      <th>用途</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>/bin</td>
+      <td>常见的用户指令</td>
+    </tr>
+    <tr>
+      <td>/boot</td>
+      <td>内核和启动文件</td>
+    </tr>
+    <tr>
+      <td>/dev</td>
+      <td>设备文件</td>
+    </tr>
+    <tr>
+      <td>/etc</td>
+      <td>系统和服务的配置文件</td>
+    </tr>
+    <tr>
+      <td>/home</td>
+      <td>系统默认的普通用户家目录</td>
+    </tr>
+    <tr>
+      <td>/lib</td>
+      <td>系统函数库目录</td>
+    </tr>
+    <tr>
+      <td>/lost+found</td>
+      <td>ext3文件系统需要的目录，用于磁盘检查</td>
+    </tr>
+    <tr>
+      <td>/mnt</td>
+      <td>系统加载文件系统时常用的挂载点</td>
+    </tr>
+    <tr>
+      <td>/opt</td>
+      <td>第三方软件安装目录</td>
+    </tr>
+    <tr>
+      <td>/proc</td>
+      <td>虚拟文件系统</td>
+    </tr>
+    <tr>
+      <td>/root</td>
+      <td>root用户的家目录</td>
+    </tr>
+    <tr>
+      <td>/sbin</td>
+      <td>存放系统管理命令</td>
+    </tr>
+    <tr>
+      <td>tmp</td>
+      <td>临时文件的存放目录</td>
+    </tr>
+    <tr>
+      <td>/usr</td>
+      <td>存放与用户直接相关的文件和目录</td>
+    </tr>
+    <tr>
+      <td>/media</td>
+      <td>系统用来挂载光驱等临时文件系统的挂载点</td>
+    </tr>
+  </tbody>
+</table>
 
 <h3 id="shell判断命令是否存在">shell判断命令是否存在</h3>
 <ul>
