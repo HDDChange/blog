@@ -5,9 +5,120 @@
     <description>The harder, the luckier.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 19 Feb 2019 01:13:43 +0800</pubDate>
-    <lastBuildDate>Tue, 19 Feb 2019 01:13:43 +0800</lastBuildDate>
+    <pubDate>Tue, 19 Mar 2019 14:36:03 +0800</pubDate>
+    <lastBuildDate>Tue, 19 Mar 2019 14:36:03 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>并发的世界</title>
+        <description>&lt;hr /&gt;
+&lt;p&gt;layout:     post
+title:      并发的世界
+subtitle:   初探并发的世界
+date:       2019-03-16
+author:     HDD
+header-img: img/post_bg_shell.png
+catalog: true
+tags:
+    - 并发
+–&lt;/p&gt;
+
+&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
+&lt;p&gt;工作当中有很多机会是尝试使用并发的场景,但是由于自己并发的知识掌握的并不充足,所以打算加强学习一下,争取早日应用到线上.&lt;/p&gt;
+
+&lt;h2 id=&quot;初探并发世界&quot;&gt;初探并发世界&lt;/h2&gt;
+
+&lt;h3 id=&quot;专业词汇&quot;&gt;专业词汇&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;同步&lt;/strong&gt;:同步调用,调用方会阻塞的等待被调用方返回结果.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;异步&lt;/strong&gt;:异步调用,调用方类似向被调用方发送了一个消息(干活),调用方不会阻塞的一直等待被调用方,而会继续做自己的事.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;并行&lt;/strong&gt;:多件事真的一起在执行&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;并发&lt;/strong&gt;:多件事交替的执行&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;临界区&lt;/strong&gt;:公共资源,但是每次只允许一个线程占用&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;阻塞&lt;/strong&gt;:指多个线程抢占临界区资源,当临界区资源被抢占,其他线程就只能陷入到阻塞状态.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;非阻塞&lt;/strong&gt;:强调没有一个线程可以妨碍其他线程的执行&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;死锁&lt;/strong&gt;:最简单的死锁,A线程等B线程,B等待C,C等待A&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;饥饿&lt;/strong&gt;:指一个或多个线程因为种种原因(例:优先级低)而一直无法执行&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;活锁&lt;/strong&gt;:当两个线程互相谦让,而导致双方都无法执行&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;并发级别&quot;&gt;并发级别&lt;/h3&gt;
+&lt;p&gt;由于临界区的存在,多线程之间的并发必须受到控制.根据控制并发的策略,我们可以把并发的级别进行分类,大致可分为&lt;strong&gt;阻塞&lt;/strong&gt;、&lt;strong&gt;无饥饿&lt;/strong&gt;、&lt;strong&gt;无锁&lt;/strong&gt;、&lt;strong&gt;无等待&lt;/strong&gt;等.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;阻塞&lt;/strong&gt;:当临界区资源被释放之前,当前线程都无法执行.可以使用synchronized&lt;/td&gt;
+      &lt;td&gt;重入锁来实现,(悲观)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;无饥饿&lt;/strong&gt;:当莫个线程等优先级很低,不断的被其他高优先级的优先级‘插队’,那么该线程会一直无法得到执行,一直处于饥饿状态.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;无障碍&lt;/strong&gt;:无障碍是一种很弱等非阻塞调度方式.多个线程要是无障碍的执行,那么他们同时进入临界区,当检测到有其他线程修改了共享变量,当前线程做的修改就会回滚.可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;一致性标记&lt;/code&gt;来实现,(乐观)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;无锁&lt;/strong&gt;:无锁是无障碍的一种,无锁的并发保证必然有一个线程能够在有限步内完成操作离开临界区&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;无等待&lt;/strong&gt;:无等待是无锁的一种,无等待要求所有的线程都必须在有限步内完成&lt;/p&gt;
+
+&lt;h3 id=&quot;并行中两个比较重要的定律&quot;&gt;并行中两个比较重要的定律&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Amdahl定律&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Gustafson定律&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;java--jmm&quot;&gt;Java : JMM&lt;/h3&gt;
+&lt;p&gt;并发程序在数据访问的一致性和安全性都是一个问题,而JMM也就是为了这类问题而生的&lt;/p&gt;
+
+&lt;p&gt;JMM的关键技术点都是围绕着多线程的原子性、可见性、有序性来建立的&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;原子性&lt;/strong&gt;:指一个操作是不可中断的,即使在多线程的环境下,一个操作一旦开始,就不会受到其他线程干扰&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;可见性&lt;/strong&gt;:一个线程修改了莫一个共享变量的值,其他线程是否能够立即知道这个修改&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;有序性&lt;/strong&gt;:&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 16 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/03/16/%E5%B9%B6%E5%8F%91%E7%9A%84%E4%B8%96%E7%95%8C/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/03/16/%E5%B9%B6%E5%8F%91%E7%9A%84%E4%B8%96%E7%95%8C/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>报警系统</title>
+        <description>&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
+&lt;p&gt;最近我做的业务系统没有什么迭代的功能，所以领导让我去搞搞日志报警，之前我们的报警都是人为的第二天去查看前天的线上日志，查看报错信息。这样做对于一些要求没有那么严格的系统而言还可以，但是对于要求实时性很高的系统就会存在很大的问题。&lt;/p&gt;
+
+&lt;h3 id=&quot;方案选型&quot;&gt;方案选型&lt;/h3&gt;
+&lt;p&gt;经过我一段时间的摸索，大概了解了现在线上日志报错处理的方式&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;方案一&lt;/strong&gt;：线上服务器定时跑脚本，分析线上错误日志报警&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;方案二&lt;/strong&gt;：使用日志平台分析日志，例：elk、logkit、zabbix&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;方案三&lt;/strong&gt;：使用Metrics埋点上报报警&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;方案四&lt;/strong&gt;：log4j2配置错误日志报警&lt;/p&gt;
+
+&lt;h3 id=&quot;log4j2配置说明&quot;&gt;log4j2配置说明&lt;/h3&gt;
+
+&lt;div class=&quot;language-xml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;这种配置方式会将info级别的日志也记录在邮件里面发送过去&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 05 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/03/05/%E6%97%A5%E5%BF%97%E6%8A%A5%E8%AD%A6/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/03/05/%E6%97%A5%E5%BF%97%E6%8A%A5%E8%AD%A6/</guid>
+        
+        <category>设计</category>
+        
+        
+      </item>
     
       <item>
         <title>Shell学习</title>
@@ -320,8 +431,89 @@ PID    COMMAND      %CPU TIME     &lt;span class=&quot;c&quot;&gt;#TH   #WQ  #PO
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;第一行:&lt;/strong&gt;&lt;/p&gt;
+  &lt;p&gt;PID: 进程ID
+USER: 进程所有者
+PR: 进程优先级
+NI: nice值，负值表示高优先级，正值表示低优先级
+VIRT: 进程使用的虚拟内存总量，单位Kb，VIRT = SWAP + RES
+RES: 进程使用的未被换出点物理内存大小，单位为Kb，RES = CODE + DATA
+SHR: 共享内存大小，单位Kb
+%CPU: 上次更新到现在CPU时间占用百分比
+%MEM: 进程使用的物理内存百分比
+TIME+: 进程使用的CPU时间总计，单位1/100秒
+COMMAND: 进程名称（命令名/命令行）&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;h4 id=&quot;进程管理-1&quot;&gt;进程管理&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;终止进程&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;kill&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;killall&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;查询进程打开的文件&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;lsof&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;进程优先级调整&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;nice&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;renice&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;shell学习&quot;&gt;shell学习&lt;/h4&gt;
+&lt;p&gt;shell的版本有很多种，现在主流了主要是bash shell，所以我学习主要以bash shell为主。&lt;/p&gt;
+
+&lt;p&gt;每个shell脚本开头的&lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;&lt;/code&gt;都是声名这个脚本解释器的位置&lt;/p&gt;
+
+&lt;p&gt;我们在写shell脚本的时候，可能会报错，这个时候我们可以&lt;code class=&quot;highlighter-rouge&quot;&gt;bash -x shell&lt;/code&gt;命令，或在shell脚本中&lt;code class=&quot;highlighter-rouge&quot;&gt;echo 值&lt;/code&gt;来查找问题。要是还是搞不定，我给大家安利一个好东西，&lt;strong&gt;bashdb&lt;/strong&gt;脚本调试软件&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Shell内建命令&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;在shell当中有很多的内建命令，内建命令不同于外部命令，内建命令的执行速度会比外部命令快很多，因为内建命令相当于shell里面的一个函数，不需要触及磁盘io就可以执行，使用&lt;strong&gt;type&lt;/strong&gt;命令可以区分内建命令和外部命令。&lt;/p&gt;
+
+&lt;h3 id=&quot;切换任务前后台bgfgjobsctrl--zctrl--cctrl--ctrl--d&quot;&gt;切换任务前后台：bg、fg、job、sctrl + z、ctrl + c、ctrl + \、ctrl + d&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&amp;amp;
+加在一个命令的最后，可以把这个命令放到后台执行 ,如gftp &amp;amp;,&lt;/li&gt;
+  &lt;li&gt;ctrl + z
+可以将一个正在前台执行的命令放到后台，并且处于暂停状态，不可执行&lt;/li&gt;
+  &lt;li&gt;jobs
+查看当前有多少在后台运行的命令
+jobs -l选项可显示所有任务的PID，jobs的状态可以是running, stopped, Terminated,但是如果任务被终止了（kill），shell 从当前的shell环境已知的列表中删除任务的进程标识；也就是说，jobs命令显示的是当前shell环境中所起的后台正在运行或者被挂起的任务信息；&lt;/li&gt;
+  &lt;li&gt;fg
+将后台中的命令调至前台继续运行
+如果后台中有多个命令，可以用 fg %jobnumber将选中的命令调出，%jobnumber是通过jobs命令查到的后台正在执行的命令的序号(不是pid)&lt;/li&gt;
+  &lt;li&gt;bg
+将一个在后台暂停的命令，变成继续执行 （在后台执行）
+如果后台中有多个命令，可以用bg %jobnumber将选中的命令调出，%jobnumber是通过jobs命令查到的后台正在执行的命令的序号(不是pid)
+将任务转移到后台运行：
+先ctrl + z；再bg，这样进程就被移到后台运行，终端还能继续接受命令。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;声明变量&lt;/strong&gt;：declare、typeset&lt;/p&gt;
+
+&lt;p&gt;shell中虽然有声明变量的命令，但是shell却是弱类型语言。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;转换字符串为shell命令&lt;/strong&gt;：eval&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;结束循环&lt;/strong&gt;：break&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;循环控制&lt;/strong&gt;：continue&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;执行命令代替当前shell&lt;/strong&gt;：exec&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;使用变量能被子shell识别&lt;/strong&gt;：export&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;杀死进程&lt;/strong&gt;：kill&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;声明局部变量&lt;/strong&gt;：local&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;标准输入&lt;/strong&gt;：read&lt;/p&gt;
+
+&lt;p&gt;**&lt;/p&gt;
 
 &lt;h3 id=&quot;shell常用脚本&quot;&gt;shell常用脚本&lt;/h3&gt;
 &lt;h4 id=&quot;shell判断命令是否存在&quot;&gt;shell判断命令是否存在&lt;/h4&gt;
