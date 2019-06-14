@@ -471,6 +471,8 @@
   <li><strong>tr</strong> 文本转换</li>
   <li><strong>paste</strong> 文本合并</li>
   <li><strong>split</strong> 分割大文件</li>
+  <li><strong>awk</strong> 文本处理工具</li>
+  <li><strong>sed</strong> 文本处理工具</li>
 </ul>
 
 <h3 id="网络管理">网络管理</h3>
@@ -539,18 +541,7 @@ COMMAND: 进程名称（命令名/命令行）</p>
   <li><strong>renice</strong></li>
 </ul>
 
-<h4 id="shell学习">shell学习</h4>
-<p>shell的版本有很多种，现在主流了主要是bash shell，所以我学习主要以bash shell为主。</p>
-
-<p>每个shell脚本开头的<code class="highlighter-rouge"><span class="c">#!/bin/bash</span></code>都是声名这个脚本解释器的位置</p>
-
-<p>我们在写shell脚本的时候，可能会报错，这个时候我们可以<code class="highlighter-rouge">bash -x shell</code>命令，或在shell脚本中<code class="highlighter-rouge">echo 值</code>来查找问题。要是还是搞不定，我给大家安利一个好东西，<strong>bashdb</strong>脚本调试软件</p>
-
-<p><strong>Shell内建命令</strong></p>
-
-<p>在shell当中有很多的内建命令，内建命令不同于外部命令，内建命令的执行速度会比外部命令快很多，因为内建命令相当于shell里面的一个函数，不需要触及磁盘io就可以执行，使用<strong>type</strong>命令可以区分内建命令和外部命令。</p>
-
-<h3 id="切换任务前后台bgfgjobsctrl--zctrl--cctrl--ctrl--d">切换任务前后台：bg、fg、job、sctrl + z、ctrl + c、ctrl + \、ctrl + d</h3>
+<p><strong>切换任务前后台：bg、fg、job、sctrl + z、ctrl + c、ctrl + \、ctrl + d</strong></p>
 
 <ol>
   <li>&amp;
@@ -570,6 +561,17 @@ jobs -l选项可显示所有任务的PID，jobs的状态可以是running, stoppe
 先ctrl + z；再bg，这样进程就被移到后台运行，终端还能继续接受命令。</li>
 </ol>
 
+<h3 id="shell学习">shell学习</h3>
+<p>shell的版本有很多种，现在主流了主要是bash shell，所以我学习主要以bash shell为主。</p>
+
+<p>每个shell脚本开头的<code class="highlighter-rouge"><span class="c">#!/bin/bash</span></code>都是声名这个脚本解释器的位置</p>
+
+<p>我们在写shell脚本的时候，可能会报错，这个时候我们可以<code class="highlighter-rouge">bash -x shell</code>命令，或在shell脚本中<code class="highlighter-rouge">echo 值</code>来查找问题。要是还是搞不定，我给大家安利一个好东西，<strong>bashdb</strong>脚本调试软件</p>
+
+<h4 id="shell内建命令">Shell内建命令</h4>
+
+<p>在shell当中有很多的内建命令，内建命令不同于外部命令，内建命令的执行速度会比外部命令快很多，因为内建命令相当于shell里面的一个函数，不需要触及磁盘io就可以执行，使用<strong>type</strong>命令可以区分内建命令和外部命令。</p>
+
 <p><strong>声明变量</strong>：declare、typeset</p>
 
 <p>shell中虽然有声明变量的命令，但是shell却是弱类型语言。</p>
@@ -586,11 +588,221 @@ jobs -l选项可显示所有任务的PID，jobs的状态可以是running, stoppe
 
 <p><strong>杀死进程</strong>：kill</p>
 
+<p><strong>整数运算</strong>: let</p>
+
+<p><strong>显示当前工作目录</strong>: pwd</p>
+
 <p><strong>声明局部变量</strong>：local</p>
 
 <p><strong>标准输入</strong>：read</p>
 
-<p>**</p>
+<p><strong>定义函数返回值</strong>: return</p>
+
+<p><strong>显示并设置进程资源限度</strong>: ulimit</p>
+
+<p><strong>测试表达式</strong>: test</p>
+
+<h4 id="shell编程基础">Shell编程基础</h4>
+
+<p><strong>变量</strong></p>
+
+<p>Shell中的变量都是弱类型的变量,主要分为两种<code class="highlighter-rouge">局部变量</code>、<code class="highlighter-rouge">环境变量</code>;</p>
+
+<p><strong>局部变量</strong>: 指只在当前shell中有效的变量</p>
+
+<p><strong>环境变量</strong>: 在当前环境中,所有的shell共享的变量
+|变量名|用途|
+|—|—|
+|$0|	当前脚本的文件名|
+|$n	|传递给脚本或函数的参数。n 是一个数字，表示第几个参数。例如，第一个参数是$1，第二个参数是$2。|
+|$#	|传递给脚本或函数的参数个数。|
+|$*	|传递给脚本或函数的所有参数。|
+|$@	|传递给脚本或函数的所有参数。被双引号(“ “)包含时，与 $* 稍有不同，下面将会讲到。|
+|$?	|上个命令的退出状态，或函数的返回值。|
+|$$|	当前Shell进程ID。对于 Shell 脚本，就是这些脚本所在的进程ID。|</p>
+
+<p><strong>变量赋值和取值</strong></p>
+
+<p>Shell中变量的赋值中间不能拥有空格,变量值中空格时,必须用<code class="highlighter-rouge">"</code>或者<code class="highlighter-rouge">'</code>包起来</p>
+
+<p>使用<code class="highlighter-rouge">${变量名}</code>来取值,这种方式是比较保险的做法</p>
+
+<p>当变量值中引用的是其他变量,变量值必须使用<code class="highlighter-rouge">"</code></p>
+
+<p><strong>设置变量必须先声明再使用</strong>: shopt -s -o nounset</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>**unset 变量名</td>
+      <td>函数名**: 取消变量或者函数</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>数组</strong></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>数组的声明: declare -a 数组名</td>
+      <td>数组名={}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>数组取值: ${数组名[ 索引 ]} , ${数组名[ * ]} 或 ${数组名[ @ ]}一次取出所有值</p>
+
+<p>数组长度: 使用#号来获取字符串长度来获取数组长度,${#数组名[ * ]}、${#数组名[ @ ]}</p>
+
+<p>截取数组: ${数组名[ @ ]:1:2},也可以截取其单个元素第某些字符</p>
+
+<p>连接数组: 将若干第数组进行拼接操作, {$数组名[ @ ] ${数组名[ @ ]}}</p>
+
+<p>替换元素: 将数组内莫个元素替换成其它值, Array=({$Array[ @ ]/要替换的值/被替换的值}]</p>
+
+<p>取消数组或元素: unset</p>
+
+<p><strong>只读变量</strong></p>
+
+<p>只读变量又称为常量,是通过readonly命令创建的变量,声明时就要求赋值且无法修改, declare -r效果一样</p>
+
+<p>Shell默认以Shell的进程ID作为一个命名空间,即使在函数中声明变量,该变量也会在全局生效.</p>
+
+<p><code class="highlighter-rouge">部分引用</code>: “” 在这种引用中 $ , ` , \ 这三种特殊字符都是有意义的</p>
+
+<p><code class="highlighter-rouge">全饮用</code>: ‘’ 在这种引用中,所有字符都会当成普通的字符</p>
+
+<p><code class="highlighter-rouge">命令替换</code>: `` 或者 $() 将命令的标准输出作为值赋给莫个变量</p>
+
+<p><strong>运算符</strong></p>
+
+<p>算术运算符、位运算符、自增自减, 在shell中要给变量</p>
+
+<p><code class="highlighter-rouge">常规运算符</code>: 加(+)、减(-)、乘(*)、除(/)、余(%)、幂(**)</p>
+
+<p><code class="highlighter-rouge">复合运算符</code>: 加等(+=)、减等(-=)、乘等(*=)、除等(/=)、余等(%=)</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">位运算符</code>: 左移(«)、右移(»)、按位与运算(&amp;)、安位或运算(</td>
+      <td>)、按位异或运算(^)、按位非(~)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code class="highlighter-rouge">自增自减</code>: 前置自增、前置自减、后置自增、后置自减等. 前置会首先修改变量的值,然后在将变量的值传递过去; 后置会首先将变量的值传递出去,在修改变量的值. 自增符号: ++, 自减符号: –</p>
+
+<p><code class="highlighter-rouge">其他算术运算</code>: 使用$[]和算术扩展$(()),可用于简单的算术运算. 使用expr做运算. 内建命令declare . 使用bc做运算</p>
+
+<p><strong>特殊字符</strong></p>
+
+<p><code class="highlighter-rouge">通配符</code>: 通配符使用在模式匹配中,常见的通配符有<code class="highlighter-rouge">* ? 和用 [] 括起来的字符序列</code>. <code class="highlighter-rouge">*</code>代表着任意长度的字符串,<code class="highlighter-rouge">?</code>可以匹配任意一个单一字符. <code class="highlighter-rouge">[]</code>代表匹配其中任意一个字符</p>
+
+<p><code class="highlighter-rouge">引号</code>: 单引又被称”全引用”或”强引用”;双引又被称”部分引用”或”弱引用”或”部分引用”,所有双引号括起来的字符除了$、\、` 依然保留其特殊用途外,其余字符都当作普通字符处理;</p>
+
+<p><code class="highlighter-rouge">注释符</code>: Shell 将 # 作为注释符</p>
+
+<p><code class="highlighter-rouge">大括号</code>: <br />
+1.变量扩展</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>表达式</th>
+      <th>作用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>${var}</td>
+      <td>取出变量var的值</td>
+    </tr>
+    <tr>
+      <td>${var:-DEFAULT}</td>
+      <td>如果var没有定义,则以$DEFAULT作为其值</td>
+    </tr>
+    <tr>
+      <td>${var:=DEFAULT}</td>
+      <td>如果var没有定义,或者为空,则以$DEFAULT作为其值</td>
+    </tr>
+    <tr>
+      <td>${var+VALUE}</td>
+      <td>如果定义了var,赋值为$VALUE,否则为空字符串</td>
+    </tr>
+    <tr>
+      <td>${var:+VALUE}</td>
+      <td>如果定义了var并且空值,赋值为$VALUE,否则为空字符</td>
+    </tr>
+    <tr>
+      <td>${var?MSG}</td>
+      <td>如果var没有被定义,则打印$MSG</td>
+    </tr>
+    <tr>
+      <td>${var:?MSG}</td>
+      <td>如果var没有被定义或赋值,则打印$MSG</td>
+    </tr>
+    <tr>
+      <td>${!PREFIX*} 、 ${!PREFIX@}</td>
+      <td>匹配所有以PREFIX开头的变量</td>
+    </tr>
+    <tr>
+      <td>${#STR}</td>
+      <td>返回$STR的长度</td>
+    </tr>
+    <tr>
+      <td>${STR:POSITION}</td>
+      <td>从位置$POSITION处提取子串</td>
+    </tr>
+    <tr>
+      <td>${STR:POSITION:LENGTH}</td>
+      <td>从位置$POSITION处提取长度为$LENGTH的子串</td>
+    </tr>
+    <tr>
+      <td>${STR#SUBSTR}</td>
+      <td>从变量$STR的开头开始寻找,删除最短匹配$SUBSTR的子串</td>
+    </tr>
+    <tr>
+      <td>${STR##SUBSTR}</td>
+      <td>从变量$STR的开头开始寻找,删除最长匹配$SUBSTR的子串</td>
+    </tr>
+    <tr>
+      <td>${STR%SUBSTR}</td>
+      <td>从变量$STR的开头开始寻找,删除最短匹配$SUBSTR的子串</td>
+    </tr>
+    <tr>
+      <td>${STR%%SUBSTR}</td>
+      <td>从变量$STR的开头开始寻找,删除最长匹配$SUBSTR的子串</td>
+    </tr>
+    <tr>
+      <td>${STR/SUBSTR/REPLACE}</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>${STR//SUBSTR/REPLACE}</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>${STR/#SUBSTR/REPLACE}</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>${STR/%SUBSTR/REPLACE}</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>``:</p>
+
+<p>``:</p>
+
+<p>``:</p>
+
+<p>``:</p>
+
+<p>``:</p>
 
 <h3 id="shell常用脚本">shell常用脚本</h3>
 <h4 id="shell判断命令是否存在">shell判断命令是否存在</h4>
