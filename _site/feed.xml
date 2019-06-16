@@ -5,25 +5,184 @@
     <description>The harder, the luckier.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 13 Apr 2019 17:39:09 +0800</pubDate>
-    <lastBuildDate>Sat, 13 Apr 2019 17:39:09 +0800</lastBuildDate>
+    <pubDate>Sun, 16 Jun 2019 22:55:21 +0800</pubDate>
+    <lastBuildDate>Sun, 16 Jun 2019 22:55:21 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
-        <title>并发的世界</title>
-        <description>&lt;hr /&gt;
-&lt;p&gt;layout:     post
-title:      并发的世界
-subtitle:   初探并发的世界
-date:       2019-03-16
-author:     HDD
-header-img: img/post_bg_shell.png
-catalog: true
-tags:
-    - 并发
-–&lt;/p&gt;
+        <title>算法</title>
+        <description>&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
+&lt;p&gt;最近一直在刷leetcode(https://leetcode-cn.com),自己有一些题大多数时间复杂度都很高，题解中很多都是使用二叉搜索树、广义后缀树、线段树等，感觉这一块等知识很重要，在这里记录所有树有关的知识。&lt;/p&gt;
 
-&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
+&lt;h2 id=&quot;树定义略&quot;&gt;树(定义略)&lt;/h2&gt;
+&lt;h3 id=&quot;二叉树定义略&quot;&gt;二叉树(定义略)&lt;/h3&gt;
+&lt;h4 id=&quot;完全二叉树&quot;&gt;完全二叉树&lt;/h4&gt;
+&lt;h4 id=&quot;满二叉树&quot;&gt;满二叉树&lt;/h4&gt;
+&lt;h4 id=&quot;二叉树的存储&quot;&gt;二叉树的存储&lt;/h4&gt;
+&lt;h4 id=&quot;二叉树的遍历&quot;&gt;二叉树的遍历&lt;/h4&gt;
+&lt;h4 id=&quot;n叉树转二叉树&quot;&gt;n叉树转二叉树&lt;/h4&gt;
+
+&lt;h4 id=&quot;二叉平衡树avl树&quot;&gt;二叉平衡树(AVL树)&lt;/h4&gt;
+
+&lt;h5 id=&quot;红黑树&quot;&gt;红黑树&lt;/h5&gt;
+
+&lt;h4 id=&quot;排序二叉树&quot;&gt;排序二叉树&lt;/h4&gt;
+&lt;h4 id=&quot;二叉搜索树&quot;&gt;二叉搜索树&lt;/h4&gt;
+
+&lt;h3 id=&quot;霍夫曼树&quot;&gt;霍夫曼树&lt;/h3&gt;
+
+&lt;p&gt;###&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 16 Jun 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/06/16/%E6%A0%91/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/06/16/%E6%A0%91/</guid>
+        
+        <category>MySQL</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>SQL优化</title>
+        <description>&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
+&lt;p&gt;这周团队内大佬无私分享了关于sql优化的培训，经大佬同意，我在这里把文章转载在我的blog上，具体案例因为涉及到公司代码，不方便公开，下面主要是一些总结点。&lt;/p&gt;
+
+&lt;h2 id=&quot;explain命令&quot;&gt;explain命令&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-mysql&quot;&gt;# 查看更详细的执行计划
+explain show warning
+
+explain select * from goods g left join product p on g.product_id = p.id;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/img/SQL优化.png&quot; alt=&quot;SQL优化&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;id&lt;/strong&gt;: 决定表的读取顺序 执行select 语句查询的序列号,包含一组数字,表示查询中执行select子句或操作表的顺序 它有三种情况:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;id相同，执行顺序由上至下&lt;/li&gt;
+  &lt;li&gt;id不同，如果是子查询，id的序号会递增，id值越大优先级越高,越先被执行&lt;/li&gt;
+  &lt;li&gt;id相同、不同，同时存在，如果id相同，可以认为是一组，从上往下顺序执行,在所有组中，id值越大，优先级越高，越先执行&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;select_type&lt;/strong&gt;: 查询的类型，也就是数据读取操作的操作类型，他一共有以下5种:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;simple&lt;/code&gt;: 简单的select查询,查询中不不包含子查询或者union&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;primary&lt;/code&gt;: 查询中若包含任何复杂的子查询,最外层查询则被标记&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;subquery&lt;/code&gt;: 在select或者where列表中包含了子查询&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;derived&lt;/code&gt;: 在from列表中包含的子查询被标记为 DERIVED(衍生表),mysql会递归执行这些子查询,把结果放临时表中&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;union&lt;/code&gt;: 若第二个select出现在union 之后,则被标记为union,若union包含在from子句的子查询中,外层select将被标记为:DERIVED; union result:从union表
+(即union合并的结果集)中获取select查询的结果&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;type&lt;/strong&gt;: 访问类型排列列 显示查询使用了何种类型,从最好到最差依次是:system &amp;gt; const &amp;gt; eq_ref &amp;gt; ref &amp;gt; range &amp;gt; index &amp;gt; all&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;system&lt;/code&gt;: 表只有一行记录(等于系统表),这是const类型的特例,平时不不会出现,这个也可忽略不计&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;const&lt;/code&gt;: 表示通过索引一次就找到了，const用于比较primary key或者unique索引。因为只匹配一行记录,所以很快. 如果将主键置于where列列表中,mysql就能将该查询转换成一个常量量&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;eq_ref&lt;/code&gt;: 唯一性索引扫描,对于每一个索引键,表中只有一条记录与之匹配,常用于主键或唯一索引扫描&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ref&lt;/code&gt;: 非唯一性索引扫描,返回匹配某个单独值得所有行,本质上也是一种索引访问,它返回所有匹配某个单独值的行,然而,它可能会找到多个符合条件的⾏行行,所以它应该属于查找和扫描的混合体&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;range&lt;/code&gt;: 只检索给定范围的行,使⽤用一个索引来选择行,key列显示使用哪个索引,一般就是在你的where语句中出现了between,&amp;lt;,&amp;gt;,in等的查询;这种范围索引扫描比全表扫描要好,
+因为它只需要开始于索引的某一个点,结束于另一个点,不用扫描全部索引&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;index&lt;/code&gt;: index于all区别为index类型只遍历索引树,这通常比all快,因为索引文件通常比数据文件小，也就是说虽然all和index都是读写表,但index是从索引中读取的，而all是从硬盘中读的;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;all&lt;/code&gt;: 也就是全表扫描&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;备注: 一般来说,得保证查询至少达到range级别,最好能达到ref&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;possible_keys&lt;/strong&gt;: 显示可能会被应用到这张表的索引,一个或者多个;查询涉及到的字段上若存在索引,则该索引将被列出,但不一定被查询实际使用到;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;key&lt;/strong&gt;: 实际使用到的索引.如果为null,则没有使用索引;查询中若使用了覆盖索引,则该索引仅出现在key列表中;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;key_len&lt;/strong&gt;: 表示索引中使用的字节数,可通过该列计算查询中使用的索引的长度,在不损失精确性的情况下, 长度越短越好; key_len显示的值为索引字段的最大可能长度,并非实际使用长度,
+即key_len是根据表定义计算而得,不是通过表内检索出的;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;ref&lt;/strong&gt;: 显示索引的那一列被使用了,如果可能的话,是一个常数,哪些列或常量别用于查找索引列上的值;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;rows&lt;/strong&gt;: 根据表统计信息及索引选用情况,大致估算出找到所需的记录所需要读取的行数;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;filtered&lt;/strong&gt;: 使用explain extended时会出现这个列，5.7之后的版本默认就有这个字段，不需要使用explain 
+extended了。这个字段表示存储引擎返回的数据在server层过滤后，剩下多少满足查询的记录 数量量的比例&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Extra&lt;/strong&gt;: 包含不适合在其它列中显示但十分重要的额外信息:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;using filesort&lt;/code&gt;(出现这个东西不好): 说明mysql会对数据使用一个外部的索引排序,而不是按照表内的索引顺序进行读取,mysql中无法利用索引完成的排序操作称为”文件排序”;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;using temporary&lt;/code&gt;(出现这个东西更不好,使用到了临时表): 使用了临时表保存中间结果,Mysql在对查询结果排序时使用临时表,常见于排序order by和分组查询group by&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;using index&lt;/code&gt;: 表示相应的select操作中使用了覆盖索引(Covering Index),避免了访问了表的数据行,效率不错!如果同时出现using where ,
+表明索引被用来执行索引键值的查找;如果没有同时出现using where, 表明索引用来读取数据而非执行查找操作;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;using where&lt;/code&gt;: 使用了where&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;using index condition&lt;/code&gt;: 使用了 5.6 新特性 ICP(index condition pushdown)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;using join buffer&lt;/code&gt;: 使用了链接缓存&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;impossible where&lt;/code&gt;: where子句的值总是false,不能用来获取任何元素&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;select tables optimized away&lt;/code&gt;: 在没有group by子句的情况下,基于索引优化MIN/MAX操作或者对于 MyISAM存储引擎优化count(*)操作,不必等到执行阶段再进行计算,
+查询执行计划生成的阶段即完成优化&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;using mrr&lt;/code&gt;:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;覆盖索引&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;理解方式一: 就是select的数据列只用从索引列中就能取得,不必读取数据行,Mysql可以利用索引返回select列表中的字段,而不必根据索引再次读取数据文件,
+换句话说查询列要被所建的索引列覆盖;&lt;/li&gt;
+  &lt;li&gt;理解方式二: 索引是高效找到行的一个方法,但是一般数据库也能使用索引找到一个列的数据,因此它不必读取整个行，毕竟索引的叶子节点存储了索引数据;
+当能通过读取索引就可以得到想要的数据,那就不需要读取行了;一个索引包含了(或者覆盖了)满足查询结果的数据就叫做覆盖索引。&lt;/li&gt;
+  &lt;li&gt;注意: 如果要使用覆盖索引,一定要注意select列表中只取出需要的列,不可select *;因为如果将所有的字段一起做索引会导致索引文件过大,查询性能下降;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;icp使用限制&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;当sql需要全表访问时,ICP的优化策略可用于range, ref, eq_ref, ref_or_null 类型的访问数据方法&lt;/li&gt;
+  &lt;li&gt;支持InnoDB和MyISAM表&lt;/li&gt;
+  &lt;li&gt;ICP只能用于二级索引，不能用于主索引&lt;/li&gt;
+  &lt;li&gt;并非全部where条件都可以 用ICP筛选。如果where条件的字段不在索引列中,还是要读取整表的记录到server端做where过滤&lt;/li&gt;
+  &lt;li&gt;ICP的加速效果取决于在存储引擎内通过ICP筛选掉的数据的比例&lt;/li&gt;
+  &lt;li&gt;5.6版本的不支持分表的ICP功 能，5.7 版本的开始支持&lt;/li&gt;
+  &lt;li&gt;当sql 使用覆盖索引时，不支持ICP 优化方法&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;mrr详解&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;随机 IO 转化为顺序IO以降低查询过程中IO开销的一种手段，这对IO-bound类型的SQL语句句性能带来极大的提升。MRR的优化在于，并不是每次通过辅助索引就回表去取记录，⽽而是将其rowid给缓存起来，然后对rowid
+进行排序后，再去访问记录，这样就能将随机I/O转化为顺序I/O，从而大幅地提升性能。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;join 详解&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;MySQL是只支持一种JOIN算法Nested-Loop Join(嵌套循环链接)，不像其他商业数据库可以支持哈希链接和合并连接，不过MySQL的Nested-Loop Join(嵌套循环链接)
+也是有很多变种，能够帮助MySQL更高效的执行JOIN操作:
+    &lt;ol&gt;
+      &lt;li&gt;&lt;strong&gt;Simple Nested-Loop Join&lt;/strong&gt;: 这个算法相对来说就是很简单了，从驱动表中取出R1匹配S表所有列，然后R2，R3,直到将R表中的所有 
+  数据匹配完，然后合并数据，可以看到这种算法要对S表进行RN次访问，虽然简单，但是相对来说开销还是太大了
+  &lt;img src=&quot;/img/SQL优化.png&quot; alt=&quot;SQL优化&quot; /&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Index Nested-Loop Join&lt;/strong&gt;: 索引嵌套联系由于非驱动表上有索引，所以比较的时候不再需要一条记录进行比较，而可以通过索引
+                             来减少比较，从而加速查询。这也就是平时我们在做关联查询的时候必须要求关联字段有索引的一个主要原因。
+                             这种算法在链接查询的时候，驱动表会根据关联字段的索引进行查找，当在索引上找到了符合的值，再回表进行查询，也就是只有当匹配到索引以后才会进行回表。至于驱动表的选择，MySQL优化器一般情况下是会选择记录数少的作为驱动表，但是当SQL特别复杂的时候不排除会出现错误选择。
+                             在索引嵌套链接的方式下，如果非驱动表的关联键是主键的话，这样来说性能就会非常的高，如果不是 
+                             主键的话，关联起来如果返回的行数很多的话，效率就会特别的低，因为要多次的回表操作。先关联索 
+                             引，然后根据二级索引的主键ID进行回表的操作。这样来说的话性能相对就会很差。
+  &lt;img src=&quot;/img/SQL优化2.png&quot; alt=&quot;SQL优化2&quot; /&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Block Nested-Loop Join&lt;/strong&gt;: 在有索引的情况下，MySQL会尝试去使用Index Nested-Loop Join算法，在有些情况下，可能Join的列 
+  就是没有索引，那么这时MySQL的选择绝对不会是最先介绍的Simple Nested-Loop Join算法，而是会优先使用Block Nested-Loop Join的算法。
+                            Block Nested-Loop Join对比Simple Nested-Loop Join多了一个中间处理的过程，也就是join buffer， 
+                            使用join buffer将驱动表的查询JOIN相关列都给缓冲到了JOIN BUFFER当中，然后批量与非驱动表进行 
+                            比较，这也来实现的话，可以将多次比较合并到一次，降低了非驱动表的访问频率。也就是只需要访问 
+                            一次S表。这样来说的话，就不会出现多次访问非驱动表的情况了，也只有这种情况下才会访问join buffer。
+                            在MySQL当中，我们可以通过参数join_buffer_size来设置join buffer的值，然后再进行操作。默认情况 
+                            下join_buffer_size=256K，在查找的时候MySQL会将所有的需要的列缓存到join buffer当中，包括 
+                            select的列，而不是仅只缓存关联列。在一个有N个JOIN关联的SQL当中会在执行时候分配N-1个join buffer &lt;br /&gt;
+  &lt;img src=&quot;/img/SQL优化3.png&quot; alt=&quot;SQL优化3&quot; /&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Fri, 14 Jun 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2019/06/14/SQL%E4%BC%98%E5%8C%96/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/06/14/SQL%E4%BC%98%E5%8C%96/</guid>
+        
+        <category>MySQL</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>并发的世界</title>
+        <description>&lt;h1 id=&quot;前言&quot;&gt;前言&lt;/h1&gt;
 &lt;p&gt;工作当中有很多机会是尝试使用并发的场景,但是由于自己并发的知识掌握的并不充足,所以打算加强学习一下,争取早日应用到线上.&lt;/p&gt;
 
 &lt;h2 id=&quot;初探并发世界&quot;&gt;初探并发世界&lt;/h2&gt;
@@ -61,7 +220,7 @@ tags:
 
 &lt;p&gt;&lt;strong&gt;无锁&lt;/strong&gt;:无锁是无障碍的一种,无锁的并发保证必然有一个线程能够在有限步内完成操作离开临界区&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;无等待&lt;/strong&gt;:无等待是无锁的一种,无等待要求所有的线程都必须在有限步内完成&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;无等待&lt;/strong&gt;:无等待是无锁的一种,无等待要求所有的线程都必须在有限步内完&lt;/p&gt;
 
 &lt;h3 id=&quot;并行中两个比较重要的定律&quot;&gt;并行中两个比较重要的定律&lt;/h3&gt;
 &lt;ul&gt;
@@ -84,6 +243,8 @@ tags:
         <pubDate>Sat, 16 Mar 2019 00:00:00 +0800</pubDate>
         <link>http://localhost:4000/2019/03/16/%E5%B9%B6%E5%8F%91%E7%9A%84%E4%B8%96%E7%95%8C/</link>
         <guid isPermaLink="true">http://localhost:4000/2019/03/16/%E5%B9%B6%E5%8F%91%E7%9A%84%E4%B8%96%E7%95%8C/</guid>
+        
+        <category>并发</category>
         
         
       </item>
@@ -627,8 +788,9 @@ jobs -l选项可显示所有任务的PID，jobs的状态可以是running, stoppe
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;注释符&lt;/code&gt;: Shell 将 # 作为注释符&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;大括号&lt;/code&gt;: &lt;br /&gt;
-1.变量扩展&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;大括号&lt;/code&gt;: &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;1.变量扩展&lt;/p&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -700,22 +862,26 @@ jobs -l选项可显示所有任务的PID，jobs的状态可以是running, stoppe
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;${STR/SUBSTR/REPLACE}&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;使用$REPLACE替换第一个匹配的$SUBSTR&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;${STR//SUBSTR/REPLACE}&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;使用$REPLACE替换所有匹配的$SUBSTR&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;${STR/#SUBSTR/REPLACE}&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;如果$STR以$SUBSTR开始,则用$SREPLACE来替代匹配的$SUBSTR&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;${STR/%SUBSTR/REPLACE}&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;如果$STR以$SUBSTR结束,则用$SREPLACE来替代匹配的$SUBSTR&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;通配符扩展&lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;p&gt;``:&lt;/p&gt;
 
@@ -797,23 +963,23 @@ jobs -l选项可显示所有任务的PID，jobs的状态可以是running, stoppe
 
 &lt;p&gt;&lt;strong&gt;例：&lt;/strong&gt;&lt;/p&gt;
 
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 1. 不需要参数,返回值为 5  &lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;  
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// 1. 不需要参数,返回值为 5  
+() -&amp;gt; 5  
   
-&lt;span class=&quot;c1&quot;&gt;// 2. 接收一个参数(数字类型),返回其2倍的值  &lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;  
+// 2. 接收一个参数(数字类型),返回其2倍的值  
+x -&amp;gt; 2 * x  
   
-&lt;span class=&quot;c1&quot;&gt;// 3. 接受2个参数(数字),并返回他们的差值  &lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;–&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;  
+// 3. 接受2个参数(数字),并返回他们的差值  
+(x, y) -&amp;gt; x – y  
   
-&lt;span class=&quot;c1&quot;&gt;// 4. 接收2个int型整数,返回他们的和  &lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;  
+// 4. 接收2个int型整数,返回他们的和  
+(int x, int y) -&amp;gt; x + y  
   
-&lt;span class=&quot;c1&quot;&gt;// 5. 接受一个 string 对象,并在控制台打印,不返回任何值&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;我是代码块&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+// 5. 接受一个 string 对象,并在控制台打印,不返回任何值
+(String s) -&amp;gt; {
+    System.out.print(s); 
+    System.out.print(&quot;我是代码块&quot;);
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h4 id=&quot;函数式接口&quot;&gt;函数式接口&lt;/h4&gt;
 
@@ -873,123 +1039,123 @@ jobs -l选项可显示所有任务的PID，jobs的状态可以是running, stoppe
 &lt;p&gt;在我们使用&lt;code class=&quot;highlighter-rouge&quot;&gt;终端流操作&lt;/code&gt;的时候,可以使用流收集器Collectiors,来完成我们对流的收集。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;例&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;cm&quot;&gt;/**
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    /**
      * 中间流
-     */&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;@SuppressWarnings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;all&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;intermediateFlow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+     */
+    @SuppressWarnings(&quot;all&quot;)
+    public static void intermediateFlow() {
 
-        &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// 过滤&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Objects:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nonNull&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        List&amp;lt;Student&amp;gt; students = Student.init(100);
+        students.add(null);
+        // 过滤
+        students.stream().filter(Objects::nonNull);
 
-        &lt;span class=&quot;c1&quot;&gt;// 去重&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;distinct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        // 去重
+        students.stream().distinct();
 
-        &lt;span class=&quot;c1&quot;&gt;// 排序&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        // 排序
+        students.stream().sorted();
 
-        &lt;span class=&quot;c1&quot;&gt;// 切片&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;skip&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;limit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        // 切片
+        students.stream().skip(1).limit(2);
 
-        &lt;span class=&quot;c1&quot;&gt;// 映射&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lists&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Lists&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;newArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;lists&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;flatMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Stream:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        // 映射
+        students.stream().map(Student::getAge);
+        List&amp;lt;List&amp;lt;Student&amp;gt;&amp;gt; lists = Lists.newArrayList(students, students);
+        lists.stream().flatMap(Stream::of);
 
-        &lt;span class=&quot;c1&quot;&gt;// 特殊的map&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;peek&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;我执行过peek方法&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        // 特殊的map
+        students.stream().peek(student -&amp;gt; student.setName(&quot;我执行过peek方法&quot;));
 
-        &lt;span class=&quot;c1&quot;&gt;// 数值流 减少不必要的 装箱拆箱操作&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mapToInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mapToLong&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        // 数值流 减少不必要的 装箱拆箱操作
+        students.stream().mapToInt(Student::getAge);
+        students.stream().mapToLong(Student::getId);
+    }
 
-    &lt;span class=&quot;cm&quot;&gt;/**
+    /**
      * 终端流
-     */&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;@SuppressWarnings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;all&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;terminalFlow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+     */
+    @SuppressWarnings(&quot;all&quot;)
+    public static void terminalFlow() {
+        List&amp;lt;Student&amp;gt; students = Student.init(100);
 
-        &lt;span class=&quot;c1&quot;&gt;// 循环&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;我是代码块&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;
+        // 循环
+        students.stream().forEach(student -&amp;gt; {
+            System.out.printf(&quot;我是代码块&quot;);
+        });
 
-        &lt;span class=&quot;c1&quot;&gt;// 查找&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;findFirst&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;findAny&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        // 查找
+        students.stream().findFirst();
+        students.stream().findAny();
 
-        &lt;span class=&quot;c1&quot;&gt;// 匹配&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;allMatch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Objects:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nonNull&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;anyMatch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Objects:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isNull&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;noneMatch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Objects:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isNull&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        // 匹配
+        students.stream().allMatch(Objects::nonNull);
+        students.stream().anyMatch(Objects::isNull);
+        students.stream().noneMatch(Objects::isNull);
 
-        &lt;span class=&quot;c1&quot;&gt;// 规约&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        // 规约
+        students.stream().reduce((student, student1) -&amp;gt; student);
+        students.stream().reduce(new Student(), (student, student2) -&amp;gt; student);
 
-        &lt;span class=&quot;c1&quot;&gt;// 最大、最小&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Comparator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;comparing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Comparator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;comparing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        // 最大、最小
+        students.stream().max(Comparator.comparing(Student::getAge));
+        students.stream().min(Comparator.comparing(Student::getAge));
 
-        &lt;span class=&quot;c1&quot;&gt;// 收集&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        // 收集
+        students.stream().collect(Collectors.toList());
+    }
 
-    &lt;span class=&quot;cm&quot;&gt;/**
+    /**
      * 流收集器
-     */&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;@SuppressWarnings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;all&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+     */
+    @SuppressWarnings(&quot;all&quot;)
+    public static void collectors() {
+        List&amp;lt;Student&amp;gt; students = Student.init(100);
 
-        &lt;span class=&quot;c1&quot;&gt;// 收集List&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        // 收集List
+        students.stream().collect(Collectors.toList());
 
-        &lt;span class=&quot;c1&quot;&gt;// 收集成Set&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        // 收集成Set
+        students.stream().collect(Collectors.toSet());
 
-        &lt;span class=&quot;c1&quot;&gt;// 收集成map&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;Map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;studentMap&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Maps&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;newHashMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;studentMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        // 收集成map
+        Map&amp;lt;Long, Student&amp;gt; studentMap = Maps.newHashMap();
+        students.stream().collect(Collectors.toMap(Student::getId, Function.identity()));
+        students.stream().collect(Collectors.toMap(Student::getId, Function.identity(), (k1, k2) -&amp;gt; k1));
+        students.stream()
+            .collect(Collectors.toMap(Student::getId, Function.identity(), (k1, k2) -&amp;gt; k1, () -&amp;gt; studentMap));
 
-        &lt;span class=&quot;c1&quot;&gt;// 求数量和&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;counting&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        // 求数量和
+        students.stream().collect(Collectors.counting());
 
-        &lt;span class=&quot;c1&quot;&gt;// 最大、最小&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;minBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Comparator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;comparing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;maxBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Comparator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;comparing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)));&lt;/span&gt;
+        // 最大、最小
+        students.stream().collect(Collectors.minBy(Comparator.comparing(Student::getAge)));
+        students.stream().collect(Collectors.maxBy(Comparator.comparing(Student::getAge)));
 
-        &lt;span class=&quot;c1&quot;&gt;// 求和&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;summingInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        // 求和
+        students.stream().collect(Collectors.summingInt(Student::getAge));
 
-        &lt;span class=&quot;c1&quot;&gt;// 求平均&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;averagingInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        // 求平均
+        students.stream().collect(Collectors.averagingInt(Student::getAge));
 
-        &lt;span class=&quot;c1&quot;&gt;// 统计值 最大、最小、平均、和&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;summarizingInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        // 统计值 最大、最小、平均、和
+        students.stream().collect(Collectors.summarizingInt(Student::getAge));
 
-        &lt;span class=&quot;c1&quot;&gt;// 连接字符串&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;joining&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        // 连接字符串
+        students.stream().map(Student::getName).collect(Collectors.joining());
 
-        &lt;span class=&quot;c1&quot;&gt;// 分组&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;groupingBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// 多级分组&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;groupingBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;groupingBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getGender&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)));&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// 按分组收集数据&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;groupingBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Student:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;joining&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())));&lt;/span&gt;
+        // 分组
+        students.stream().collect(Collectors.groupingBy(Student::getAge));
+        // 多级分组
+        students.stream().collect(Collectors.groupingBy(Student::getAge, Collectors.groupingBy(Student::getGender)));
+        // 按分组收集数据
+        students.stream().collect(
+            Collectors.groupingBy(Student::getAge, Collectors.mapping(Student::getName, Collectors.joining())));
 
-        &lt;span class=&quot;c1&quot;&gt;// 分区&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;students&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;partitioningBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getGender&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+        // 分区
+        students.stream().collect(Collectors.partitioningBy(o -&amp;gt; o.getGender() == 1 ? true : false));
 
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    }
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 

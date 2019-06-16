@@ -11,7 +11,7 @@ github_repo: "https://github.com/HDDChange/blog.git" # you code repository
 
 # Sidebar settings
 sidebar: true                       
-sidebar-about-description: "Goals determine what you going to be!"
+sidebar-about-description: "刷题一时爽，一直刷一直爽!!!"
 sidebar-avatar: /img/avatar_dog.jpeg     
 
 
@@ -102,5 +102,9 @@ friends: [
     {
         title: "Kunlin Gou",
         href: "https://www.kunlingou.club"
+    },
+    {
+        title: "Kaijun Guo",
+        href: "https://gds12345.github.io/myFirstRepository"
     }
 ]

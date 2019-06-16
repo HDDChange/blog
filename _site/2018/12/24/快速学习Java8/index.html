@@ -226,23 +226,23 @@
 
 <p><strong>例：</strong></p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1. 不需要参数,返回值为 5  </span>
-<span class="o">()</span> <span class="o">-&gt;</span> <span class="mi">5</span>  
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 1. 不需要参数,返回值为 5  
+() -&gt; 5  
   
-<span class="c1">// 2. 接收一个参数(数字类型),返回其2倍的值  </span>
-<span class="n">x</span> <span class="o">-&gt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span>  
+// 2. 接收一个参数(数字类型),返回其2倍的值  
+x -&gt; 2 * x  
   
-<span class="c1">// 3. 接受2个参数(数字),并返回他们的差值  </span>
-<span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="err">–</span> <span class="n">y</span>  
+// 3. 接受2个参数(数字),并返回他们的差值  
+(x, y) -&gt; x – y  
   
-<span class="c1">// 4. 接收2个int型整数,返回他们的和  </span>
-<span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>  
+// 4. 接收2个int型整数,返回他们的和  
+(int x, int y) -&gt; x + y  
   
-<span class="c1">// 5. 接受一个 string 对象,并在控制台打印,不返回任何值</span>
-<span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">s</span><span class="o">);</span> 
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"我是代码块"</span><span class="o">);</span>
-<span class="o">}</span>
+// 5. 接受一个 string 对象,并在控制台打印,不返回任何值
+(String s) -&gt; {
+    System.out.print(s); 
+    System.out.print("我是代码块");
+}
 </code></pre></div></div>
 <h4 id="函数式接口">函数式接口</h4>
 
@@ -302,123 +302,123 @@
 <p>在我们使用<code class="highlighter-rouge">终端流操作</code>的时候,可以使用流收集器Collectiors,来完成我们对流的收集。</p>
 
 <p><strong>例</strong></p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="cm">/**
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    /**
      * 中间流
-     */</span>
-    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"all"</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">intermediateFlow</span><span class="o">()</span> <span class="o">{</span>
+     */
+    @SuppressWarnings("all")
+    public static void intermediateFlow() {
 
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="n">Student</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
-        <span class="c1">// 过滤</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">nonNull</span><span class="o">);</span>
+        List&lt;Student&gt; students = Student.init(100);
+        students.add(null);
+        // 过滤
+        students.stream().filter(Objects::nonNull);
 
-        <span class="c1">// 去重</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">distinct</span><span class="o">();</span>
+        // 去重
+        students.stream().distinct();
 
-        <span class="c1">// 排序</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">sorted</span><span class="o">();</span>
+        // 排序
+        students.stream().sorted();
 
-        <span class="c1">// 切片</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">skip</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="na">limit</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        // 切片
+        students.stream().skip(1).limit(2);
 
-        <span class="c1">// 映射</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">);</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;&gt;</span> <span class="n">lists</span> <span class="o">=</span> <span class="n">Lists</span><span class="o">.</span><span class="na">newArrayList</span><span class="o">(</span><span class="n">students</span><span class="o">,</span> <span class="n">students</span><span class="o">);</span>
-        <span class="n">lists</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">flatMap</span><span class="o">(</span><span class="nl">Stream:</span><span class="o">:</span><span class="n">of</span><span class="o">);</span>
+        // 映射
+        students.stream().map(Student::getAge);
+        List&lt;List&lt;Student&gt;&gt; lists = Lists.newArrayList(students, students);
+        lists.stream().flatMap(Stream::of);
 
-        <span class="c1">// 特殊的map</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">peek</span><span class="o">(</span><span class="n">student</span> <span class="o">-&gt;</span> <span class="n">student</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"我执行过peek方法"</span><span class="o">));</span>
+        // 特殊的map
+        students.stream().peek(student -&gt; student.setName("我执行过peek方法"));
 
-        <span class="c1">// 数值流 减少不必要的 装箱拆箱操作</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToInt</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">);</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToLong</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getId</span><span class="o">);</span>
-    <span class="o">}</span>
+        // 数值流 减少不必要的 装箱拆箱操作
+        students.stream().mapToInt(Student::getAge);
+        students.stream().mapToLong(Student::getId);
+    }
 
-    <span class="cm">/**
+    /**
      * 终端流
-     */</span>
-    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"all"</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">terminalFlow</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="n">Student</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+     */
+    @SuppressWarnings("all")
+    public static void terminalFlow() {
+        List&lt;Student&gt; students = Student.init(100);
 
-        <span class="c1">// 循环</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">student</span> <span class="o">-&gt;</span> <span class="o">{</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"我是代码块"</span><span class="o">);</span>
-        <span class="o">});</span>
+        // 循环
+        students.stream().forEach(student -&gt; {
+            System.out.printf("我是代码块");
+        });
 
-        <span class="c1">// 查找</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">findFirst</span><span class="o">();</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">findAny</span><span class="o">();</span>
+        // 查找
+        students.stream().findFirst();
+        students.stream().findAny();
 
-        <span class="c1">// 匹配</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">allMatch</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">nonNull</span><span class="o">);</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">anyMatch</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">isNull</span><span class="o">);</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">noneMatch</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">isNull</span><span class="o">);</span>
+        // 匹配
+        students.stream().allMatch(Objects::nonNull);
+        students.stream().anyMatch(Objects::isNull);
+        students.stream().noneMatch(Objects::isNull);
 
-        <span class="c1">// 规约</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">reduce</span><span class="o">((</span><span class="n">student</span><span class="o">,</span> <span class="n">student1</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">student</span><span class="o">);</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">reduce</span><span class="o">(</span><span class="k">new</span> <span class="n">Student</span><span class="o">(),</span> <span class="o">(</span><span class="n">student</span><span class="o">,</span> <span class="n">student2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">student</span><span class="o">);</span>
+        // 规约
+        students.stream().reduce((student, student1) -&gt; student);
+        students.stream().reduce(new Student(), (student, student2) -&gt; student);
 
-        <span class="c1">// 最大、最小</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">max</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">min</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+        // 最大、最小
+        students.stream().max(Comparator.comparing(Student::getAge));
+        students.stream().min(Comparator.comparing(Student::getAge));
 
-        <span class="c1">// 收集</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
-    <span class="o">}</span>
+        // 收集
+        students.stream().collect(Collectors.toList());
+    }
 
-    <span class="cm">/**
+    /**
      * 流收集器
-     */</span>
-    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"all"</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">collectors</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="n">Student</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+     */
+    @SuppressWarnings("all")
+    public static void collectors() {
+        List&lt;Student&gt; students = Student.init(100);
 
-        <span class="c1">// 收集List</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+        // 收集List
+        students.stream().collect(Collectors.toList());
 
-        <span class="c1">// 收集成Set</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toSet</span><span class="o">());</span>
+        // 收集成Set
+        students.stream().collect(Collectors.toSet());
 
-        <span class="c1">// 收集成map</span>
-        <span class="n">Map</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">,</span> <span class="n">Student</span><span class="o">&gt;</span> <span class="n">studentMap</span> <span class="o">=</span> <span class="n">Maps</span><span class="o">.</span><span class="na">newHashMap</span><span class="o">();</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getId</span><span class="o">,</span> <span class="n">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">()));</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getId</span><span class="o">,</span> <span class="n">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span> <span class="o">(</span><span class="n">k1</span><span class="o">,</span> <span class="n">k2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">k1</span><span class="o">));</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
-            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getId</span><span class="o">,</span> <span class="n">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span> <span class="o">(</span><span class="n">k1</span><span class="o">,</span> <span class="n">k2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">k1</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">studentMap</span><span class="o">));</span>
+        // 收集成map
+        Map&lt;Long, Student&gt; studentMap = Maps.newHashMap();
+        students.stream().collect(Collectors.toMap(Student::getId, Function.identity()));
+        students.stream().collect(Collectors.toMap(Student::getId, Function.identity(), (k1, k2) -&gt; k1));
+        students.stream()
+            .collect(Collectors.toMap(Student::getId, Function.identity(), (k1, k2) -&gt; k1, () -&gt; studentMap));
 
-        <span class="c1">// 求数量和</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">counting</span><span class="o">());</span>
+        // 求数量和
+        students.stream().collect(Collectors.counting());
 
-        <span class="c1">// 最大、最小</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">minBy</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">)));</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">maxBy</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">)));</span>
+        // 最大、最小
+        students.stream().collect(Collectors.minBy(Comparator.comparing(Student::getAge)));
+        students.stream().collect(Collectors.maxBy(Comparator.comparing(Student::getAge)));
 
-        <span class="c1">// 求和</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">summingInt</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+        // 求和
+        students.stream().collect(Collectors.summingInt(Student::getAge));
 
-        <span class="c1">// 求平均</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">averagingInt</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+        // 求平均
+        students.stream().collect(Collectors.averagingInt(Student::getAge));
 
-        <span class="c1">// 统计值 最大、最小、平均、和</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">summarizingInt</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
+        // 统计值 最大、最小、平均、和
+        students.stream().collect(Collectors.summarizingInt(Student::getAge));
 
-        <span class="c1">// 连接字符串</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getName</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">());</span>
+        // 连接字符串
+        students.stream().map(Student::getName).collect(Collectors.joining());
 
-        <span class="c1">// 分组</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">));</span>
-        <span class="c1">// 多级分组</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">,</span> <span class="n">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getGender</span><span class="o">)));</span>
-        <span class="c1">// 按分组收集数据</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span>
-            <span class="n">Collectors</span><span class="o">.</span><span class="na">groupingBy</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getAge</span><span class="o">,</span> <span class="n">Collectors</span><span class="o">.</span><span class="na">mapping</span><span class="o">(</span><span class="nl">Student:</span><span class="o">:</span><span class="n">getName</span><span class="o">,</span> <span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">())));</span>
+        // 分组
+        students.stream().collect(Collectors.groupingBy(Student::getAge));
+        // 多级分组
+        students.stream().collect(Collectors.groupingBy(Student::getAge, Collectors.groupingBy(Student::getGender)));
+        // 按分组收集数据
+        students.stream().collect(
+            Collectors.groupingBy(Student::getAge, Collectors.mapping(Student::getName, Collectors.joining())));
 
-        <span class="c1">// 分区</span>
-        <span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">partitioningBy</span><span class="o">(</span><span class="n">o</span> <span class="o">-&gt;</span> <span class="n">o</span><span class="o">.</span><span class="na">getGender</span><span class="o">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="o">));</span>
+        // 分区
+        students.stream().collect(Collectors.partitioningBy(o -&gt; o.getGender() == 1 ? true : false));
 
-    <span class="o">}</span>
+    }
 
 </code></pre></div></div>
 
@@ -560,6 +560,14 @@
         				
                             
         				
+                            
+        				
+                            
+                				<a href="/tags/#MySQL" title="MySQL" rel="2">
+                                    MySQL
+                                </a>
+                            
+        				
         			</div>
                 </section>
                 
@@ -571,6 +579,8 @@
                 <ul class="list-inline">
                     
                         <li><a href="https://www.kunlingou.club">Kunlin Gou</a></li>
+                    
+                        <li><a href="https://gds12345.github.io/myFirstRepository">kaijun guo</a></li>
                     
                 </ul>
                 
